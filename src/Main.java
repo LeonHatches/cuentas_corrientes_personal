@@ -1,9 +1,12 @@
-import consola.EstadoRegistroMenu;
+import vista.MenuPrincipalFrame;
+
+import javax.swing.SwingUtilities;
 
 public class Main {
-
     public static void main(String[] args) {
-        EstadoRegistroMenu menu = new EstadoRegistroMenu();
-        menu.iniciar();
+        SwingUtilities.invokeLater(() -> {
+            MenuPrincipalFrame ventana = new MenuPrincipalFrame();
+            ventana.setVisible(true);
+        });
     }
 }
