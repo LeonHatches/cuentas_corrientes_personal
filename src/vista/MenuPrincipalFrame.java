@@ -39,9 +39,11 @@ public class MenuPrincipalFrame extends JFrame {
         panelBotones.setBorder(new EmptyBorder(55, 0, 20, 0));
 
         BotonRedondeado btnEstadoRegistro = new BotonRedondeado("Estado de Registro");
+        BotonRedondeado btnTipoOrganizacion = new BotonRedondeado("Tipo Organización");
         BotonRedondeado btnSalir = new BotonRedondeado("Salir");
 
         btnEstadoRegistro.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnTipoOrganizacion.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnSalir.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         btnEstadoRegistro.addActionListener(e -> {
@@ -59,10 +61,29 @@ public class MenuPrincipalFrame extends JFrame {
             ventana.setVisible(true);
         });
 
+        btnTipoOrganizacion.addActionListener(e -> {
+            TipoOrganizacionFrame ventana = new TipoOrganizacionFrame();
+
+            MenuPrincipalFrame.this.setVisible(false);
+
+            ventana.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosed(java.awt.event.WindowEvent e) {
+                    MenuPrincipalFrame.this.setVisible(true);
+                }
+            });
+
+            ventana.setVisible(true);
+        });
+
         btnSalir.addActionListener(e -> dispose());
 
         panelBotones.add(btnEstadoRegistro);
         panelBotones.add(Box.createRigidArea(new Dimension(0, 18)));
+
+        panelBotones.add(btnTipoOrganizacion);
+        panelBotones.add(Box.createRigidArea(new Dimension(0, 18)));
+
         panelBotones.add(btnSalir);
 
         panelPrincipal.add(panelTitulo, BorderLayout.NORTH);
