@@ -11,10 +11,11 @@ public class MenuPrincipalFrame extends JFrame {
 
     public MenuPrincipalFrame() {
         setTitle("Cuentas Corrientes de Personal");
-        setSize(750, 550);
+        setSize(800, 650);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
+
         construirInterfaz();
     }
 
@@ -34,13 +35,13 @@ public class MenuPrincipalFrame extends JFrame {
         panelTitulo.setBorder(new EmptyBorder(0, 0, 30, 0));
 
         JPanel panelColumnas = new JPanel();
-        panelColumnas.setLayout(new BoxLayout(panelColumnas, BoxLayout.X_AXIS));
         panelColumnas.setBackground(FONDO);
+        panelColumnas.setLayout(new BoxLayout(panelColumnas, BoxLayout.X_AXIS));
 
+        // --- COLUMNA IZQUIERDA: Tablas Referenciales ---
         JPanel panelIzquierdo = new JPanel();
-        panelIzquierdo.setLayout(new BoxLayout(panelIzquierdo, BoxLayout.Y_AXIS));
         panelIzquierdo.setBackground(FONDO);
-        panelIzquierdo.setAlignmentY(Component.TOP_ALIGNMENT);
+        panelIzquierdo.setLayout(new BoxLayout(panelIzquierdo, BoxLayout.Y_AXIS));
 
         BotonRedondeado btnEstadoRegistro = new BotonRedondeado("Estado de Registro");
         BotonRedondeado btnTipoTrabajador = new BotonRedondeado("Tipo Trabajador");
@@ -60,9 +61,10 @@ public class MenuPrincipalFrame extends JFrame {
         btnTipoDescuento.addActionListener(e -> abrirVentana(new TipoDescuentoFrame()));
         btnTipoCuentaCorriente.addActionListener(e -> abrirVentana(new TipoCuentaCorrienteFrame()));
 
-        BotonRedondeado[] botonesIzquierda = {btnEstadoRegistro, btnTipoTrabajador, btnEstadoTrabajador,
-                btnTipoPrestamo, btnTipoMovimiento, btnTipoOrganizacion,
-                btnTipoDescuento, btnTipoCuentaCorriente};
+        BotonRedondeado[] botonesIzquierda = {
+                btnEstadoRegistro, btnTipoTrabajador, btnEstadoTrabajador, btnTipoPrestamo,
+                btnTipoMovimiento, btnTipoOrganizacion, btnTipoDescuento, btnTipoCuentaCorriente
+        };
 
         int espacio = 15;
         for (BotonRedondeado btn : botonesIzquierda) {
@@ -71,22 +73,31 @@ public class MenuPrincipalFrame extends JFrame {
             panelIzquierdo.add(Box.createRigidArea(new Dimension(0, espacio)));
         }
 
+        // --- COLUMNA DERECHA: Tablas Maestras y Transaccionales ---
         JPanel panelDerecho = new JPanel();
-        panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.Y_AXIS));
         panelDerecho.setBackground(FONDO);
-        panelDerecho.setAlignmentY(Component.TOP_ALIGNMENT);
+        panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.Y_AXIS));
 
         BotonRedondeado btnCentroCosto = new BotonRedondeado("Centro de Costo");
         BotonRedondeado btnEmpresa = new BotonRedondeado("Empresa");
         BotonRedondeado btnTrabajador = new BotonRedondeado("Trabajador");
+        BotonRedondeado btnPrestamo = new BotonRedondeado("Préstamo");
+        BotonRedondeado btnPrestamoMov = new BotonRedondeado("Cuotas de Préstamo");
+        BotonRedondeado btnCuentaCorriente = new BotonRedondeado("Cuenta Corriente");
+        BotonRedondeado btnActa = new BotonRedondeado("Actas");
 
         btnCentroCosto.addActionListener(e -> abrirVentana(new CentroCostoFrame()));
         btnEmpresa.addActionListener(e -> abrirVentana(new EmpresaFrame()));
-
-        // --- AQUÍ ESTÁ LA LÍNEA AGREGADA PARA QUE FUNCIONE EL BOTÓN ---
         btnTrabajador.addActionListener(e -> abrirVentana(new TrabajadorFrame()));
+        btnPrestamo.addActionListener(e -> abrirVentana(new PrestamoFrame()));
+        btnPrestamoMov.addActionListener(e -> abrirVentana(new PrestamoMovFrame()));
+        btnCuentaCorriente.addActionListener(e -> abrirVentana(new CuentaCorrienteFrame()));
+        btnActa.addActionListener(e -> abrirVentana(new ActaFrame()));
 
-        BotonRedondeado[] botonesDerecha = {btnCentroCosto, btnEmpresa, btnTrabajador};
+        BotonRedondeado[] botonesDerecha = {
+                btnCentroCosto, btnEmpresa, btnTrabajador,
+                btnPrestamo, btnPrestamoMov, btnCuentaCorriente, btnActa
+        };
 
         for (BotonRedondeado btn : botonesDerecha) {
             btn.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -96,7 +107,7 @@ public class MenuPrincipalFrame extends JFrame {
 
         panelColumnas.add(Box.createHorizontalGlue());
         panelColumnas.add(panelIzquierdo);
-        panelColumnas.add(Box.createRigidArea(new Dimension(25, 0)));
+        panelColumnas.add(Box.createRigidArea(new Dimension(40, 0))); // Separación entre columnas
         panelColumnas.add(panelDerecho);
         panelColumnas.add(Box.createHorizontalGlue());
 
@@ -114,13 +125,22 @@ public class MenuPrincipalFrame extends JFrame {
     }
 
     private void abrirVentana(JFrame ventana) {
-        MenuPrincipalFrame.this.setVisible(false);
+        MenuPrincipalFrame.this.setVisible(false); // Oculta el menú principal
+
         ventana.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
-            public void windowClosed(java.awt.event.WindowEvent e) {
-                MenuPrincipalFrame.this.setVisible(true);
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                MenuPrincipalFrame.this.setVisible(true); // Vuelve a mostrar el menú al cerrar la ventana
             }
         });
+
         ventana.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        // Esto asegura que la interfaz se construya en el hilo correcto de Java
+        SwingUtilities.invokeLater(() -> {
+            new MenuPrincipalFrame().setVisible(true);
+        });
     }
 }
