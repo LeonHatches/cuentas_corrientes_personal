@@ -9,6 +9,14 @@ import java.util.List;
 
 public class TrabajadorDAO {
 
+    private Integer getIntegerNullable(ResultSet rs, String columna) throws SQLException {
+        Object valor = rs.getObject(columna);
+        if (valor == null) {
+            return null;
+        }
+        return ((Number) valor).intValue();
+    }
+
     public boolean insertar(Trabajador t) {
         String sql = "INSERT INTO R1M_TRABAJADOR (TraCod, TraNom, TraFecIng, TraFecCes, TraFecUltSalVac, TraEmpCod, TraEstCod, TraCenCosCod, TraTipCod, TraEstReg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection con = ConexionBD.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
@@ -61,7 +69,7 @@ public class TrabajadorDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return new Trabajador(rs.getInt("TraCod"), rs.getString("TraNom"), rs.getInt("TraFecIng"),
-                            (Integer) rs.getObject("TraFecCes"), (Integer) rs.getObject("TraFecUltSalVac"),
+                            getIntegerNullable(rs, "TraFecCes"), getIntegerNullable(rs, "TraFecUltSalVac"),
                             rs.getInt("TraEmpCod"), rs.getString("TraEstCod"), rs.getString("TraCenCosCod"),
                             rs.getInt("TraTipCod"), rs.getString("TraEstReg"));
                 }
@@ -76,7 +84,7 @@ public class TrabajadorDAO {
         try (Connection con = ConexionBD.getConnection(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 lista.add(new Trabajador(rs.getInt("TraCod"), rs.getString("TraNom"), rs.getInt("TraFecIng"),
-                        (Integer) rs.getObject("TraFecCes"), (Integer) rs.getObject("TraFecUltSalVac"),
+                        getIntegerNullable(rs, "TraFecCes"), getIntegerNullable(rs, "TraFecUltSalVac"),
                         rs.getInt("TraEmpCod"), rs.getString("TraEstCod"), rs.getString("TraCenCosCod"),
                         rs.getInt("TraTipCod"), rs.getString("TraEstReg")));
             }

@@ -167,7 +167,7 @@ public class TipoCuentaCorrienteService {
     }
 
     private boolean codigoValido(int codigo) {
-        return codigo > 0 && codigo <= 99;
+        return codigo == 1 || codigo == 2 || codigo == 3 || codigo == 99;
     }
 
     private boolean nombreValido(String nombre) {

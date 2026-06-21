@@ -168,8 +168,7 @@ public class TipoTrabajadorService {
     }
 
     private boolean codigoValido(int codigo) {
-        // Al ser N de longitud 1, asumimos valores de 1 a 9
-        return codigo > 0 && codigo <= 9;
+        return codigo == 1 || codigo == 2 || codigo == 3;
     }
 
     private boolean nombreValido(String nombre) {

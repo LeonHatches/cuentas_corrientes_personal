@@ -167,8 +167,7 @@ public class TipoPrestamoService {
     }
 
     private boolean codigoValido(int codigo) {
-        // Al ser N de longitud 2, se aceptan valores del 1 al 99
-        return codigo > 0 && codigo <= 99;
+        return codigo == 1 || codigo == 2;
     }
 
     private boolean nombreValido(String nombre) {
