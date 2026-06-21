@@ -7,8 +7,8 @@ public class DescuentoMovFrame extends MaestroFrameBase {
     private final DescuentoMovService service = new DescuentoMovService();
 
     public DescuentoMovFrame() {
-        super("0036 - Mantenimiento de Descuento Movimiento",
-                "0036 - MANTENIMIENTO DE DESCUENTO MOVIMIENTO",
+        super("0018 - Mantenimiento de Descuento Movimiento",
+                "0018 - MANTENIMIENTO DE DESCUENTO MOVIMIENTO",
                 "Datos_del_Movimiento_de_Descuento",
                 "Lista_de_Movimientos_de_Descuento",
                 new String[][]{

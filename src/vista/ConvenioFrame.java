@@ -7,8 +7,8 @@ public class ConvenioFrame extends MaestroFrameBase {
     private final ConvenioService service = new ConvenioService();
 
     public ConvenioFrame() {
-        super("0032 - Mantenimiento de Convenio",
-                "0032 - MANTENIMIENTO DE CONVENIO",
+        super("0015 - Mantenimiento de Convenio",
+                "0015 - MANTENIMIENTO DE CONVENIO",
                 "Datos_del_Convenio",
                 "Lista_de_Convenios",
                 new String[][]{

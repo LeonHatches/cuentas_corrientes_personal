@@ -57,7 +57,7 @@ public class PrestamoFrame extends JFrame {
         panelPrincipal.setBorder(new EmptyBorder(25, 25, 20, 25));
         setContentPane(panelPrincipal);
 
-        JLabel titulo = new JLabel("MANTENIMIENTO DE PRÉSTAMOS", SwingConstants.CENTER);
+        JLabel titulo = new JLabel("0011 - MANTENIMIENTO DE PRÉSTAMO", SwingConstants.CENTER);
         titulo.setFont(new Font("Segoe UI", Font.BOLD, 25));
         titulo.setForeground(VERDE_OSCURO);
 

@@ -7,8 +7,8 @@ public class DescuentoFrame extends MaestroFrameBase {
     private final DescuentoService service = new DescuentoService();
 
     public DescuentoFrame() {
-        super("0035 - Mantenimiento de Descuento",
-                "0035 - MANTENIMIENTO DE DESCUENTO",
+        super("0017 - Mantenimiento de Descuento",
+                "0017 - MANTENIMIENTO DE DESCUENTO",
                 "Datos_del_Descuento",
                 "Lista_de_Descuentos",
                 new String[][]{

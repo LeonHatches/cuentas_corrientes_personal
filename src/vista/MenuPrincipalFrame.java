@@ -11,7 +11,7 @@ public class MenuPrincipalFrame extends JFrame {
 
     public MenuPrincipalFrame() {
         setTitle("Cuentas Corrientes de Personal");
-        setSize(920, 760);
+        setSize(920, 800); // Un poco más alto para que quepan todos los botones holgadamente
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -33,6 +33,7 @@ public class MenuPrincipalFrame extends JFrame {
         panelTitulo.add(titulo, BorderLayout.CENTER);
         panelTitulo.setBorder(new EmptyBorder(0, 0, 22, 0));
 
+        // --- BOTONES: TABLAS REFERENCIALES (Columna Izquierda) ---
         BotonRedondeado btnEstadoRegistro = new BotonRedondeado("Estado de Registro");
         BotonRedondeado btnTipoTrabajador = new BotonRedondeado("Tipo Trabajador");
         BotonRedondeado btnEstadoTrabajador = new BotonRedondeado("Estado Trabajador");
@@ -51,27 +52,11 @@ public class MenuPrincipalFrame extends JFrame {
         btnTipoDescuento.addActionListener(e -> abrirVentana(new TipoDescuentoFrame()));
         btnTipoCuentaCorriente.addActionListener(e -> abrirVentana(new TipoCuentaCorrienteFrame()));
 
-        BotonRedondeado[] botonesIzquierda = {
-                btnEstadoRegistro, btnTipoTrabajador, btnEstadoTrabajador, btnTipoPrestamo,
-                btnTipoMovimiento, btnTipoOrganizacion, btnTipoDescuento, btnTipoCuentaCorriente
-        };
-
-        int espacio = 15;
-        for (BotonRedondeado btn : botonesIzquierda) {
-            btn.setAlignmentX(Component.CENTER_ALIGNMENT);
-            panelIzquierdo.add(btn);
-            panelIzquierdo.add(Box.createRigidArea(new Dimension(0, espacio)));
-        }
-
-        // --- COLUMNA DERECHA: Tablas Maestras y Transaccionales ---
-        JPanel panelDerecho = new JPanel();
-        panelDerecho.setBackground(FONDO);
-        panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.Y_AXIS));
-
+        // --- BOTONES: TABLAS MAESTRAS Y TRANSACCIONALES (Columna Derecha) ---
         BotonRedondeado btnCentroCosto = new BotonRedondeado("Centro de Costo");
         BotonRedondeado btnEmpresa = new BotonRedondeado("Empresa");
         BotonRedondeado btnTrabajador = new BotonRedondeado("Trabajador");
-        BotonRedondeado btnOrganizacion = new BotonRedondeado("Organizacion");
+        BotonRedondeado btnOrganizacion = new BotonRedondeado("Organización");
         BotonRedondeado btnConvenio = new BotonRedondeado("Convenio");
         BotonRedondeado btnDescuento = new BotonRedondeado("Descuento");
         BotonRedondeado btnDescuentoMov = new BotonRedondeado("Descuento Mov.");
@@ -86,47 +71,53 @@ public class MenuPrincipalFrame extends JFrame {
         btnConvenio.addActionListener(e -> abrirVentana(new ConvenioFrame()));
         btnDescuento.addActionListener(e -> abrirVentana(new DescuentoFrame()));
         btnDescuentoMov.addActionListener(e -> abrirVentana(new DescuentoMovFrame()));
-
-        // --- AQUÍ ESTÁ LA LÍNEA AGREGADA PARA QUE FUNCIONE EL BOTÓN ---
         btnTrabajador.addActionListener(e -> abrirVentana(new TrabajadorFrame()));
         btnPrestamo.addActionListener(e -> abrirVentana(new PrestamoFrame()));
         btnPrestamoMov.addActionListener(e -> abrirVentana(new PrestamoMovFrame()));
         btnCuentaCorriente.addActionListener(e -> abrirVentana(new CuentaCorrienteFrame()));
         btnActa.addActionListener(e -> abrirVentana(new ActaFrame()));
 
-        JPanel panelBotones = new JPanel(new GridLayout(8, 2, 32, 16));
-        panelBotones.setBackground(FONDO);
-        panelBotones.setBorder(new EmptyBorder(0, 105, 4, 105));
-        BotonRedondeado[] botonesDerecha = {
-                btnCentroCosto, btnEmpresa, btnTrabajador,
-                btnPrestamo, btnPrestamoMov, btnCuentaCorriente, btnActa
+        // Aplicar el mismo tamaño a todos los botones
+        BotonRedondeado[] todosLosBotones = {
+                btnEstadoRegistro, btnTipoTrabajador, btnEstadoTrabajador, btnTipoPrestamo,
+                btnTipoMovimiento, btnTipoOrganizacion, btnTipoDescuento, btnTipoCuentaCorriente,
+                btnCentroCosto, btnEmpresa, btnTrabajador, btnOrganizacion, btnConvenio,
+                btnDescuento, btnDescuentoMov, btnPrestamo, btnPrestamoMov, btnCuentaCorriente, btnActa
         };
 
-        BotonRedondeado[] botones = {
-                btnEstadoRegistro, btnCentroCosto,
-                btnTipoTrabajador, btnEmpresa,
-                btnEstadoTrabajador, btnTrabajador,
-                btnTipoPrestamo, btnOrganizacion,
-                btnTipoMovimiento, btnConvenio,
-                btnTipoOrganizacion, btnDescuento,
-                btnTipoDescuento, btnDescuentoMov,
-                btnTipoCuentaCorriente
-        };
-
-        for (BotonRedondeado btn : botones) {
+        for (BotonRedondeado btn : todosLosBotones) {
             btn.setPreferredSize(new Dimension(260, 44));
-            panelBotones.add(btn);
         }
 
-        panelColumnas.add(Box.createHorizontalGlue());
-        panelColumnas.add(panelIzquierdo);
-        panelColumnas.add(Box.createRigidArea(new Dimension(40, 0))); // Separación entre columnas
-        panelColumnas.add(panelDerecho);
-        panelColumnas.add(Box.createHorizontalGlue());
-        JPanel espacioVacio = new JPanel();
-        espacioVacio.setOpaque(false);
-        panelBotones.add(espacioVacio);
+        // --- CONSTRUCCIÓN DE LA CUADRÍCULA (11 Filas x 2 Columnas) ---
+        JPanel panelBotones = new JPanel(new GridLayout(11, 2, 32, 12));
+        panelBotones.setBackground(FONDO);
+        panelBotones.setBorder(new EmptyBorder(0, 80, 0, 80));
 
+        // Fila 1
+        panelBotones.add(btnEstadoRegistro);      panelBotones.add(btnCentroCosto);
+        // Fila 2
+        panelBotones.add(btnTipoTrabajador);      panelBotones.add(btnEmpresa);
+        // Fila 3
+        panelBotones.add(btnEstadoTrabajador);    panelBotones.add(btnTrabajador);
+        // Fila 4
+        panelBotones.add(btnTipoPrestamo);        panelBotones.add(btnOrganizacion);
+        // Fila 5
+        panelBotones.add(btnTipoMovimiento);      panelBotones.add(btnConvenio);
+        // Fila 6
+        panelBotones.add(btnTipoOrganizacion);    panelBotones.add(btnDescuento);
+        // Fila 7
+        panelBotones.add(btnTipoDescuento);       panelBotones.add(btnDescuentoMov);
+        // Fila 8
+        panelBotones.add(btnTipoCuentaCorriente); panelBotones.add(btnPrestamo);
+        // Fila 9 (Llenamos el espacio izquierdo con un panel vacío invisible)
+        panelBotones.add(crearEspacioVacio());    panelBotones.add(btnPrestamoMov);
+        // Fila 10
+        panelBotones.add(crearEspacioVacio());    panelBotones.add(btnCuentaCorriente);
+        // Fila 11
+        panelBotones.add(crearEspacioVacio());    panelBotones.add(btnActa);
+
+        // --- PANEL INFERIOR (Botón de Salir) ---
         JPanel panelSur = new JPanel();
         panelSur.setBackground(FONDO);
         panelSur.setBorder(new EmptyBorder(12, 0, 0, 0));
@@ -141,16 +132,21 @@ public class MenuPrincipalFrame extends JFrame {
         panelPrincipal.add(panelSur, BorderLayout.SOUTH);
     }
 
-    private void abrirVentana(JFrame ventana) {
-        MenuPrincipalFrame.this.setVisible(false); // Oculta el menú principal
+    // Método auxiliar para rellenar los huecos de la cuadrícula
+    private JPanel crearEspacioVacio() {
+        JPanel espacio = new JPanel();
+        espacio.setOpaque(false);
+        return espacio;
+    }
 
+    private void abrirVentana(JFrame ventana) {
+        this.setVisible(false);
         ventana.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosed(java.awt.event.WindowEvent windowEvent) {
-                MenuPrincipalFrame.this.setVisible(true); // Vuelve a mostrar el menú al cerrar la ventana
+                MenuPrincipalFrame.this.setVisible(true);
             }
         });
-
         ventana.setVisible(true);
     }
 }
