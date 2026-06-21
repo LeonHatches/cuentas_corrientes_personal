@@ -17,7 +17,6 @@ public class DescuentoMovFrame extends MaestroFrameBase {
                         {"tipDes", "Tipo Descuento:"},
                         {"conSec", "Sec. Convenio:"},
                         {"desSec", "Sec. Descuento:"},
-                        {"movSec", "Sec. Movimiento:"},
                         {"anio", "Anio Planilla:"},
                         {"mes", "Mes Planilla:"},
                         {"plaNum", "Num. Planilla:"},
@@ -25,10 +24,10 @@ public class DescuentoMovFrame extends MaestroFrameBase {
                         {"monto", "Monto:"},
                         {"estado", "Estado Registro:"}
                 },
-                new String[]{"Emp.", "Org.", "Tipo Desc.", "Sec. Conv.", "Sec. Desc.", "Sec. Mov.",
+                new String[]{"Emp.", "Org.", "Tipo Desc.", "Sec. Conv.", "Sec. Desc.",
                         "Anio", "Mes", "Planilla", "Tipo Mov.", "Monto", "Estado"});
         cargarTabla();
-        ajustarAnchosColumnas(65, 65, 95, 95, 95, 95, 75, 65, 90, 95, 110, 85);
+        ajustarAnchosColumnas(65, 65, 95, 95, 95, 75, 65, 90, 95, 110, 85);
     }
 
     @Override
@@ -41,7 +40,6 @@ public class DescuentoMovFrame extends MaestroFrameBase {
                     mov.getDesMovConTipDesCod(),
                     mov.getDesMovConSec(),
                     mov.getDesMovDesSec(),
-                    mov.getDesMovSec(),
                     mov.getDesMovPlaAnio(),
                     mov.getDesMovPlaMes(),
                     mov.getDesMovPlaNum(),
@@ -54,40 +52,40 @@ public class DescuentoMovFrame extends MaestroFrameBase {
 
     @Override
     protected void cargarDatosSeleccionados() {
-        cargarFilaEnCampos("emp", "org", "tipDes", "conSec", "desSec", "movSec",
+        cargarFilaEnCampos("emp", "org", "tipDes", "conSec", "desSec",
                 "anio", "mes", "plaNum", "tipMov", "monto", "estado");
     }
 
     @Override
     protected String prepararAdicionar() {
         return service.prepararAdicionar(valor("emp"), valor("org"), valor("tipDes"), valor("conSec"),
-                valor("desSec"), valor("movSec"), valor("anio"), valor("mes"), valor("plaNum"),
+                valor("desSec"), valor("anio"), valor("mes"), valor("plaNum"),
                 valor("tipMov"), valor("monto"));
     }
 
     @Override
     protected String prepararModificar() {
         return service.prepararModificar(valor("emp"), valor("org"), valor("tipDes"), valor("conSec"),
-                valor("desSec"), valor("movSec"), valor("anio"), valor("mes"), valor("plaNum"),
+                valor("desSec"), valor("anio"), valor("mes"), valor("plaNum"),
                 valor("tipMov"), valor("monto"));
     }
 
     @Override
     protected String prepararEliminar() {
         return service.prepararEliminar(valor("emp"), valor("org"), valor("tipDes"), valor("conSec"),
-                valor("desSec"), valor("movSec"), valor("anio"), valor("mes"), valor("plaNum"));
+                valor("desSec"), valor("anio"), valor("mes"), valor("plaNum"));
     }
 
     @Override
     protected String prepararInactivar() {
         return service.prepararInactivar(valor("emp"), valor("org"), valor("tipDes"), valor("conSec"),
-                valor("desSec"), valor("movSec"), valor("anio"), valor("mes"), valor("plaNum"));
+                valor("desSec"), valor("anio"), valor("mes"), valor("plaNum"));
     }
 
     @Override
     protected String prepararReactivar() {
         return service.prepararReactivar(valor("emp"), valor("org"), valor("tipDes"), valor("conSec"),
-                valor("desSec"), valor("movSec"), valor("anio"), valor("mes"), valor("plaNum"));
+                valor("desSec"), valor("anio"), valor("mes"), valor("plaNum"));
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.util.List;
 public class OrganizacionDAO {
 
     public boolean insertar(Organizacion organizacion) {
-        String sql = "INSERT INTO R1M_ORGANIZACION (OrgCod, OrgNom, OrgRuc, TipOrgCod, EstReg) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO R1M_ORGANIZACION (OrgCod, OrgNom, OrgRuc, OrgTipOrgCod, OrgEstReg) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection con = ConexionBD.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -29,7 +29,7 @@ public class OrganizacionDAO {
     }
 
     public boolean modificarDatos(Organizacion organizacion) {
-        String sql = "UPDATE R1M_ORGANIZACION SET OrgNom = ?, OrgRuc = ?, TipOrgCod = ? WHERE OrgCod = ?";
+        String sql = "UPDATE R1M_ORGANIZACION SET OrgNom = ?, OrgRuc = ?, OrgTipOrgCod = ? WHERE OrgCod = ?";
 
         try (Connection con = ConexionBD.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -47,7 +47,7 @@ public class OrganizacionDAO {
     }
 
     public boolean cambiarEstadoRegistro(int codigo, String nuevoEstado) {
-        String sql = "UPDATE R1M_ORGANIZACION SET EstReg = ? WHERE OrgCod = ?";
+        String sql = "UPDATE R1M_ORGANIZACION SET OrgEstReg = ? WHERE OrgCod = ?";
 
         try (Connection con = ConexionBD.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -63,7 +63,7 @@ public class OrganizacionDAO {
     }
 
     public Organizacion buscarPorCodigo(int codigo) {
-        String sql = "SELECT OrgCod, OrgNom, OrgRuc, TipOrgCod, EstReg FROM R1M_ORGANIZACION WHERE OrgCod = ?";
+        String sql = "SELECT OrgCod, OrgNom, OrgRuc, OrgTipOrgCod, OrgEstReg FROM R1M_ORGANIZACION WHERE OrgCod = ?";
 
         try (Connection con = ConexionBD.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -75,8 +75,8 @@ public class OrganizacionDAO {
                             rs.getInt("OrgCod"),
                             rs.getString("OrgNom"),
                             rs.getString("OrgRuc"),
-                            rs.getInt("TipOrgCod"),
-                            rs.getString("EstReg")
+                            rs.getInt("OrgTipOrgCod"),
+                            rs.getString("OrgEstReg")
                     );
                 }
             }
@@ -93,7 +93,7 @@ public class OrganizacionDAO {
 
     public List<Organizacion> listarTodos() {
         List<Organizacion> lista = new ArrayList<>();
-        String sql = "SELECT OrgCod, OrgNom, OrgRuc, TipOrgCod, EstReg FROM R1M_ORGANIZACION ORDER BY OrgCod";
+        String sql = "SELECT OrgCod, OrgNom, OrgRuc, OrgTipOrgCod, OrgEstReg FROM R1M_ORGANIZACION ORDER BY OrgCod";
 
         try (Connection con = ConexionBD.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);
@@ -104,8 +104,8 @@ public class OrganizacionDAO {
                         rs.getInt("OrgCod"),
                         rs.getString("OrgNom"),
                         rs.getString("OrgRuc"),
-                        rs.getInt("TipOrgCod"),
-                        rs.getString("EstReg")
+                        rs.getInt("OrgTipOrgCod"),
+                        rs.getString("OrgEstReg")
                 ));
             }
         } catch (SQLException e) {

@@ -17,12 +17,12 @@ public class DescuentoMovService {
     private String operacionPendiente = "";
     private DescuentoMov registroPendiente = null;
 
-    public String prepararAdicionar(String emp, String org, String tipDes, String conSec, String desSec, String movSec,
+    public String prepararAdicionar(String emp, String org, String tipDes, String conSec, String desSec,
                                     String anio, String mes, String plaNum, String tipMov, String monto) {
-        DescuentoMov mov = construirMovimiento(emp, org, tipDes, conSec, desSec, movSec, anio, mes, plaNum, tipMov, monto, "A");
+        DescuentoMov mov = construirMovimiento(emp, org, tipDes, conSec, desSec, anio, mes, plaNum, tipMov, monto, "A");
         if (mov == null) return "Datos no validos. Revise clave, periodo, tipo movimiento y monto.";
         if (dao.existe(mov.getDesMovConEmpCod(), mov.getDesMovConOrgCod(), mov.getDesMovConTipDesCod(),
-                mov.getDesMovConSec(), mov.getDesMovDesSec(), mov.getDesMovSec(), mov.getDesMovPlaAnio(),
+                mov.getDesMovConSec(), mov.getDesMovDesSec(), mov.getDesMovPlaAnio(),
                 mov.getDesMovPlaMes(), mov.getDesMovPlaNum())) return "Ya existe un movimiento con esa clave.";
         if (estadoService.buscarPorCodigo("A") == null) return "Error: No existe el estado 'A'.";
 
@@ -31,9 +31,9 @@ public class DescuentoMovService {
         return "Operacion ADICIONAR preparada. Presione Actualizar para grabar.";
     }
 
-    public String prepararModificar(String emp, String org, String tipDes, String conSec, String desSec, String movSec,
+    public String prepararModificar(String emp, String org, String tipDes, String conSec, String desSec,
                                     String anio, String mes, String plaNum, String tipMov, String monto) {
-        DescuentoMov mov = construirMovimiento(emp, org, tipDes, conSec, desSec, movSec, anio, mes, plaNum, tipMov, monto, "A");
+        DescuentoMov mov = construirMovimiento(emp, org, tipDes, conSec, desSec, anio, mes, plaNum, tipMov, monto, "A");
         if (mov == null) return "Datos no validos. Revise clave, periodo, tipo movimiento y monto.";
 
         DescuentoMov encontrada = buscar(mov);
@@ -45,21 +45,21 @@ public class DescuentoMovService {
         return "Operacion MODIFICAR preparada. Presione Actualizar para grabar.";
     }
 
-    public String prepararEliminar(String emp, String org, String tipDes, String conSec, String desSec, String movSec, String anio, String mes, String plaNum) {
-        return cambiarEstado(emp, org, tipDes, conSec, desSec, movSec, anio, mes, plaNum, "*", "ELIMINAR");
+    public String prepararEliminar(String emp, String org, String tipDes, String conSec, String desSec, String anio, String mes, String plaNum) {
+        return cambiarEstado(emp, org, tipDes, conSec, desSec, anio, mes, plaNum, "*", "ELIMINAR");
     }
 
-    public String prepararInactivar(String emp, String org, String tipDes, String conSec, String desSec, String movSec, String anio, String mes, String plaNum) {
-        return cambiarEstado(emp, org, tipDes, conSec, desSec, movSec, anio, mes, plaNum, "I", "INACTIVAR");
+    public String prepararInactivar(String emp, String org, String tipDes, String conSec, String desSec, String anio, String mes, String plaNum) {
+        return cambiarEstado(emp, org, tipDes, conSec, desSec, anio, mes, plaNum, "I", "INACTIVAR");
     }
 
-    public String prepararReactivar(String emp, String org, String tipDes, String conSec, String desSec, String movSec, String anio, String mes, String plaNum) {
-        return cambiarEstado(emp, org, tipDes, conSec, desSec, movSec, anio, mes, plaNum, "A", "REACTIVAR");
+    public String prepararReactivar(String emp, String org, String tipDes, String conSec, String desSec, String anio, String mes, String plaNum) {
+        return cambiarEstado(emp, org, tipDes, conSec, desSec, anio, mes, plaNum, "A", "REACTIVAR");
     }
 
-    private String cambiarEstado(String emp, String org, String tipDes, String conSec, String desSec, String movSec,
+    private String cambiarEstado(String emp, String org, String tipDes, String conSec, String desSec,
                                  String anio, String mes, String plaNum, String nuevoEstado, String operacion) {
-        DescuentoMov clave = construirMovimiento(emp, org, tipDes, conSec, desSec, movSec, anio, mes, plaNum, "X", "0", nuevoEstado);
+        DescuentoMov clave = construirMovimiento(emp, org, tipDes, conSec, desSec, anio, mes, plaNum, "X", "0", nuevoEstado);
         if (clave == null) return "Clave no valida.";
 
         DescuentoMov encontrada = buscar(clave);
@@ -101,33 +101,33 @@ public class DescuentoMovService {
         return dao.listarTodos();
     }
 
-    private DescuentoMov construirMovimiento(String emp, String org, String tipDes, String conSec, String desSec, String movSec,
+    private DescuentoMov construirMovimiento(String emp, String org, String tipDes, String conSec, String desSec,
                                              String anio, String mes, String plaNum, String tipMov, String monto, String estado) {
-        Integer empCod = parseEntero(emp, 0, 99);
-        Integer orgCod = parseEntero(org, 0, 9999);
-        Integer convenioSec = parseEntero(conSec, 0, 99);
-        Integer descuentoSec = parseEntero(desSec, 0, 99);
-        Integer movimientoSec = parseEntero(movSec, 0, 99);
-        Integer planillaAnio = parseEntero(anio, 0, 9999);
+        Integer empCod = parseEntero(emp, 1, 99);
+        Integer orgCod = parseEntero(org, 1, 9999);
+        Integer convenioSec = parseEntero(conSec, 1, 99);
+        Integer descuentoSec = parseEntero(desSec, 1, 99);
+        Integer planillaAnio = parseEntero(anio, 1, 9999);
         Integer planillaMes = parseEntero(mes, 1, 12);
-        Integer planillaNum = parseEntero(plaNum, 0, 9999);
+        Integer planillaNum = parseEntero(plaNum, 1, 9999);
         BigDecimal montoMov = parseDecimal(monto);
         tipDes = normalizar(tipDes);
         tipMov = normalizar(tipMov);
 
-        if (empCod == null || orgCod == null || convenioSec == null || descuentoSec == null || movimientoSec == null) return null;
+        if (empCod == null || orgCod == null || convenioSec == null || descuentoSec == null) return null;
         if (planillaAnio == null || planillaMes == null || planillaNum == null || montoMov == null) return null;
+        if (montoMov.compareTo(BigDecimal.ZERO) < 0) return null;
         if (tipDes.length() != 1 || tipMov.length() != 1) return null;
         if (descuentoDao.buscarPorCodigo(empCod, orgCod, tipDes, convenioSec, descuentoSec) == null) return null;
         if (!"X".equals(tipMov) && tipoMovimientoDao.buscarPorCodigo(tipMov) == null) return null;
 
-        return new DescuentoMov(empCod, orgCod, tipDes, convenioSec, descuentoSec, movimientoSec,
+        return new DescuentoMov(empCod, orgCod, tipDes, convenioSec, descuentoSec,
                 planillaAnio, planillaMes, planillaNum, tipMov, montoMov, estado);
     }
 
     private DescuentoMov buscar(DescuentoMov mov) {
         return dao.buscarPorCodigo(mov.getDesMovConEmpCod(), mov.getDesMovConOrgCod(), mov.getDesMovConTipDesCod(),
-                mov.getDesMovConSec(), mov.getDesMovDesSec(), mov.getDesMovSec(), mov.getDesMovPlaAnio(),
+                mov.getDesMovConSec(), mov.getDesMovDesSec(), mov.getDesMovPlaAnio(),
                 mov.getDesMovPlaMes(), mov.getDesMovPlaNum());
     }
 

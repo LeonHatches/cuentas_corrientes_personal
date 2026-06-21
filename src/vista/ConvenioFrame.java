@@ -17,14 +17,13 @@ public class ConvenioFrame extends MaestroFrameBase {
                         {"tipDes", "Tipo Descuento:"},
                         {"sec", "Secuencia:"},
                         {"des", "Descripcion:"},
-                        {"actRef", "Acto Referencia:"},
-                        {"actFec", "Fecha Acto AAAAMMDD:"},
+                        {"actCod", "Codigo Acta:"},
                         {"con", "Contenido:"},
                         {"estado", "Estado Registro:"}
                 },
-                new String[]{"Emp.", "Org.", "Tipo Desc.", "Sec.", "Descripcion", "Acto Ref.", "Fecha Acto", "Contenido", "Estado"});
+                new String[]{"Emp.", "Org.", "Tipo Desc.", "Sec.", "Descripcion", "Acta", "Contenido", "Estado"});
         cargarTabla();
-        ajustarAnchosColumnas(75, 75, 115, 75, 230, 145, 120, 230, 100);
+        ajustarAnchosColumnas(75, 75, 115, 75, 260, 90, 270, 100);
     }
 
     @Override
@@ -37,8 +36,7 @@ public class ConvenioFrame extends MaestroFrameBase {
                     con.getConTipDesCod(),
                     con.getConSec(),
                     con.getConDes(),
-                    con.getConActRef(),
-                    con.getConActFec(),
+                    con.getConActCod(),
                     con.getConCon(),
                     con.getConEstReg()
             });
@@ -47,19 +45,19 @@ public class ConvenioFrame extends MaestroFrameBase {
 
     @Override
     protected void cargarDatosSeleccionados() {
-        cargarFilaEnCampos("emp", "org", "tipDes", "sec", "des", "actRef", "actFec", "con", "estado");
+        cargarFilaEnCampos("emp", "org", "tipDes", "sec", "des", "actCod", "con", "estado");
     }
 
     @Override
     protected String prepararAdicionar() {
         return service.prepararAdicionar(valor("emp"), valor("org"), valor("tipDes"), valor("sec"),
-                valor("des"), valor("actRef"), valor("actFec"), valor("con"));
+                valor("des"), valor("actCod"), valor("con"));
     }
 
     @Override
     protected String prepararModificar() {
         return service.prepararModificar(valor("emp"), valor("org"), valor("tipDes"), valor("sec"),
-                valor("des"), valor("actRef"), valor("actFec"), valor("con"));
+                valor("des"), valor("actCod"), valor("con"));
     }
 
     @Override

@@ -9,13 +9,13 @@ import java.util.List;
 
 public class DescuentoMovDAO {
 
-    private static final String CAMPO_ANIO = "DesMovPlaA\u00F1o";
+    private static final String CAMPO_ANIO = "DesMovPlaA\u251C\u2592o";
     private static final String CAMPO_ANIO_SQL = "`" + CAMPO_ANIO + "`";
 
     public boolean insertar(DescuentoMov mov) {
         String sql = "INSERT INTO R1T_DESCUENTO_MOV (DesMovConEmpCod, DesMovConOrgCod, DesMovConTipDesCod, " +
-                "DesMovConSec, DesMovDesSec, DesMovSec, " + CAMPO_ANIO_SQL + ", DesMovPlaMes, DesMovPlaNum, " +
-                "DesMovTipMovCod, DesMovMon, DesMovEstReg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "DesMovConSec, DesMovDesSec, " + CAMPO_ANIO_SQL + ", DesMovPlaMes, DesMovPlaNum, " +
+                "DesMovTipMovCod, DesMovMon, DesMovEstReg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = ConexionBD.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -31,7 +31,7 @@ public class DescuentoMovDAO {
     public boolean modificarDatos(DescuentoMov mov) {
         String sql = "UPDATE R1T_DESCUENTO_MOV SET DesMovTipMovCod = ?, DesMovMon = ? " +
                 "WHERE DesMovConEmpCod = ? AND DesMovConOrgCod = ? AND DesMovConTipDesCod = ? AND " +
-                "DesMovConSec = ? AND DesMovDesSec = ? AND DesMovSec = ? AND " + CAMPO_ANIO_SQL + " = ? AND " +
+                "DesMovConSec = ? AND DesMovDesSec = ? AND " + CAMPO_ANIO_SQL + " = ? AND " +
                 "DesMovPlaMes = ? AND DesMovPlaNum = ?";
 
         try (Connection con = ConexionBD.getConnection();
@@ -51,7 +51,7 @@ public class DescuentoMovDAO {
     public boolean cambiarEstadoRegistro(DescuentoMov mov, String nuevoEstado) {
         String sql = "UPDATE R1T_DESCUENTO_MOV SET DesMovEstReg = ? " +
                 "WHERE DesMovConEmpCod = ? AND DesMovConOrgCod = ? AND DesMovConTipDesCod = ? AND " +
-                "DesMovConSec = ? AND DesMovDesSec = ? AND DesMovSec = ? AND " + CAMPO_ANIO_SQL + " = ? AND " +
+                "DesMovConSec = ? AND DesMovDesSec = ? AND " + CAMPO_ANIO_SQL + " = ? AND " +
                 "DesMovPlaMes = ? AND DesMovPlaNum = ?";
 
         try (Connection con = ConexionBD.getConnection();
@@ -68,12 +68,12 @@ public class DescuentoMovDAO {
     }
 
     public DescuentoMov buscarPorCodigo(int empCod, int orgCod, String tipDesCod, int conSec, int desSec,
-                                        int movSec, int anio, int mes, int plaNum) {
+                                        int anio, int mes, int plaNum) {
         String sql = "SELECT DesMovConEmpCod, DesMovConOrgCod, DesMovConTipDesCod, DesMovConSec, " +
-                "DesMovDesSec, DesMovSec, " + CAMPO_ANIO_SQL + ", DesMovPlaMes, DesMovPlaNum, DesMovTipMovCod, " +
+                "DesMovDesSec, " + CAMPO_ANIO_SQL + ", DesMovPlaMes, DesMovPlaNum, DesMovTipMovCod, " +
                 "DesMovMon, DesMovEstReg FROM R1T_DESCUENTO_MOV WHERE DesMovConEmpCod = ? AND " +
                 "DesMovConOrgCod = ? AND DesMovConTipDesCod = ? AND DesMovConSec = ? AND DesMovDesSec = ? AND " +
-                "DesMovSec = ? AND " + CAMPO_ANIO_SQL + " = ? AND DesMovPlaMes = ? AND DesMovPlaNum = ?";
+                CAMPO_ANIO_SQL + " = ? AND DesMovPlaMes = ? AND DesMovPlaNum = ?";
 
         try (Connection con = ConexionBD.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -83,10 +83,9 @@ public class DescuentoMovDAO {
             ps.setString(3, tipDesCod);
             ps.setInt(4, conSec);
             ps.setInt(5, desSec);
-            ps.setInt(6, movSec);
-            ps.setInt(7, anio);
-            ps.setInt(8, mes);
-            ps.setInt(9, plaNum);
+            ps.setInt(6, anio);
+            ps.setInt(7, mes);
+            ps.setInt(8, plaNum);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -101,16 +100,16 @@ public class DescuentoMovDAO {
     }
 
     public boolean existe(int empCod, int orgCod, String tipDesCod, int conSec, int desSec,
-                          int movSec, int anio, int mes, int plaNum) {
-        return buscarPorCodigo(empCod, orgCod, tipDesCod, conSec, desSec, movSec, anio, mes, plaNum) != null;
+                          int anio, int mes, int plaNum) {
+        return buscarPorCodigo(empCod, orgCod, tipDesCod, conSec, desSec, anio, mes, plaNum) != null;
     }
 
     public List<DescuentoMov> listarTodos() {
         List<DescuentoMov> lista = new ArrayList<>();
         String sql = "SELECT DesMovConEmpCod, DesMovConOrgCod, DesMovConTipDesCod, DesMovConSec, " +
-                "DesMovDesSec, DesMovSec, " + CAMPO_ANIO_SQL + ", DesMovPlaMes, DesMovPlaNum, DesMovTipMovCod, " +
+                "DesMovDesSec, " + CAMPO_ANIO_SQL + ", DesMovPlaMes, DesMovPlaNum, DesMovTipMovCod, " +
                 "DesMovMon, DesMovEstReg FROM R1T_DESCUENTO_MOV ORDER BY DesMovConEmpCod, DesMovConOrgCod, " +
-                "DesMovConTipDesCod, DesMovConSec, DesMovDesSec, DesMovSec, " + CAMPO_ANIO_SQL + ", DesMovPlaMes, DesMovPlaNum";
+                "DesMovConTipDesCod, DesMovConSec, DesMovDesSec, " + CAMPO_ANIO_SQL + ", DesMovPlaMes, DesMovPlaNum";
 
         try (Connection con = ConexionBD.getConnection();
              PreparedStatement ps = con.prepareStatement(sql);
@@ -132,13 +131,12 @@ public class DescuentoMovDAO {
         ps.setString(3, mov.getDesMovConTipDesCod());
         ps.setInt(4, mov.getDesMovConSec());
         ps.setInt(5, mov.getDesMovDesSec());
-        ps.setInt(6, mov.getDesMovSec());
-        ps.setInt(7, mov.getDesMovPlaAnio());
-        ps.setInt(8, mov.getDesMovPlaMes());
-        ps.setInt(9, mov.getDesMovPlaNum());
-        ps.setString(10, mov.getDesMovTipMovCod());
-        ps.setBigDecimal(11, mov.getDesMovMon());
-        ps.setString(12, mov.getDesMovEstReg());
+        ps.setInt(6, mov.getDesMovPlaAnio());
+        ps.setInt(7, mov.getDesMovPlaMes());
+        ps.setInt(8, mov.getDesMovPlaNum());
+        ps.setString(9, mov.getDesMovTipMovCod());
+        ps.setBigDecimal(10, mov.getDesMovMon());
+        ps.setString(11, mov.getDesMovEstReg());
     }
 
     private void cargarClave(PreparedStatement ps, DescuentoMov mov, int inicio) throws SQLException {
@@ -147,10 +145,9 @@ public class DescuentoMovDAO {
         ps.setString(inicio + 2, mov.getDesMovConTipDesCod());
         ps.setInt(inicio + 3, mov.getDesMovConSec());
         ps.setInt(inicio + 4, mov.getDesMovDesSec());
-        ps.setInt(inicio + 5, mov.getDesMovSec());
-        ps.setInt(inicio + 6, mov.getDesMovPlaAnio());
-        ps.setInt(inicio + 7, mov.getDesMovPlaMes());
-        ps.setInt(inicio + 8, mov.getDesMovPlaNum());
+        ps.setInt(inicio + 5, mov.getDesMovPlaAnio());
+        ps.setInt(inicio + 6, mov.getDesMovPlaMes());
+        ps.setInt(inicio + 7, mov.getDesMovPlaNum());
     }
 
     private DescuentoMov leerMovimiento(ResultSet rs) throws SQLException {
@@ -160,7 +157,6 @@ public class DescuentoMovDAO {
                 rs.getString("DesMovConTipDesCod"),
                 rs.getInt("DesMovConSec"),
                 rs.getInt("DesMovDesSec"),
-                rs.getInt("DesMovSec"),
                 rs.getInt(CAMPO_ANIO),
                 rs.getInt("DesMovPlaMes"),
                 rs.getInt("DesMovPlaNum"),

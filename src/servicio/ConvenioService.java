@@ -18,9 +18,9 @@ public class ConvenioService {
     private String operacionPendiente = "";
     private Convenio registroPendiente = null;
 
-    public String prepararAdicionar(String emp, String org, String tipDes, String sec, String des, String actRef, String actFec, String con) {
-        Convenio convenio = construirConvenio(emp, org, tipDes, sec, des, actRef, actFec, con, "A");
-        if (convenio == null) return "Datos no validos. Revise codigos, descripcion, acto y contenido.";
+    public String prepararAdicionar(String emp, String org, String tipDes, String sec, String des, String actCod, String con) {
+        Convenio convenio = construirConvenio(emp, org, tipDes, sec, des, actCod, con, "A");
+        if (convenio == null) return "Datos no validos. Revise codigos, descripcion, acta y contenido.";
         if (dao.existe(convenio.getConEmpCod(), convenio.getConOrgCod(), convenio.getConTipDesCod(), convenio.getConSec())) {
             return "Ya existe un convenio con esa clave.";
         }
@@ -31,9 +31,9 @@ public class ConvenioService {
         return "Operacion ADICIONAR preparada. Presione Actualizar para grabar.";
     }
 
-    public String prepararModificar(String emp, String org, String tipDes, String sec, String des, String actRef, String actFec, String con) {
-        Convenio convenio = construirConvenio(emp, org, tipDes, sec, des, actRef, actFec, con, "A");
-        if (convenio == null) return "Datos no validos. Revise codigos, descripcion, acto y contenido.";
+    public String prepararModificar(String emp, String org, String tipDes, String sec, String des, String actCod, String con) {
+        Convenio convenio = construirConvenio(emp, org, tipDes, sec, des, actCod, con, "A");
+        if (convenio == null) return "Datos no validos. Revise codigos, descripcion, acta y contenido.";
 
         Convenio encontrada = dao.buscarPorCodigo(convenio.getConEmpCod(), convenio.getConOrgCod(), convenio.getConTipDesCod(), convenio.getConSec());
         if (encontrada == null) return "No existe el convenio indicado.";
@@ -49,9 +49,9 @@ public class ConvenioService {
     public String prepararReactivar(String emp, String org, String tipDes, String sec) { return cambiarEstado(emp, org, tipDes, sec, "A", "REACTIVAR"); }
 
     private String cambiarEstado(String emp, String org, String tipDes, String sec, String nuevoEstado, String operacion) {
-        Integer empCod = parseEntero(emp, 0, 99);
-        Integer orgCod = parseEntero(org, 0, 9999);
-        Integer conSec = parseEntero(sec, 0, 99);
+        Integer empCod = parseEntero(emp, 1, 99);
+        Integer orgCod = parseEntero(org, 1, 9999);
+        Integer conSec = parseEntero(sec, 1, 99);
         tipDes = normalizar(tipDes);
         if (empCod == null || orgCod == null || conSec == null || tipDes.length() != 1) return "Clave no valida.";
 
@@ -95,24 +95,23 @@ public class ConvenioService {
         return dao.listarTodos();
     }
 
-    private Convenio construirConvenio(String emp, String org, String tipDes, String sec, String des, String actRef, String actFec, String con, String estado) {
-        Integer empCod = parseEntero(emp, 0, 99);
-        Integer orgCod = parseEntero(org, 0, 9999);
-        Integer conSec = parseEntero(sec, 0, 99);
-        Integer fecha = parseFecha(actFec);
+    private Convenio construirConvenio(String emp, String org, String tipDes, String sec, String des, String actCod, String con, String estado) {
+        Integer empCod = parseEntero(emp, 1, 99);
+        Integer orgCod = parseEntero(org, 1, 9999);
+        Integer conSec = parseEntero(sec, 1, 99);
+        Integer acta = parseEntero(actCod, 1, 999999);
         tipDes = normalizar(tipDes);
         des = normalizar(des);
-        actRef = normalizar(actRef);
         con = normalizar(con);
 
-        if (empCod == null || orgCod == null || conSec == null || fecha == null) return null;
+        if (empCod == null || orgCod == null || conSec == null || acta == null) return null;
         if (tipDes.length() != 1 || des.isEmpty() || des.length() > 120) return null;
-        if (actRef.isEmpty() || actRef.length() > 30 || con.isEmpty() || con.length() > 200) return null;
+        if (con.isEmpty() || con.length() > 200) return null;
         if (empresaDao.buscarPorCodigo(empCod) == null) return null;
         if (organizacionDao.buscarPorCodigo(orgCod) == null) return null;
         if (tipoDescuentoDao.buscarPorCodigo(tipDes) == null) return null;
 
-        return new Convenio(empCod, orgCod, tipDes, conSec, des, actRef, fecha, con, estado);
+        return new Convenio(empCod, orgCod, tipDes, conSec, des, acta, con, estado);
     }
 
     private void limpiarOperacion() {
@@ -133,9 +132,4 @@ public class ConvenioService {
         }
     }
 
-    private Integer parseFecha(String texto) {
-        String valor = normalizar(texto);
-        if (!valor.matches("\\d{8}")) return null;
-        return Integer.parseInt(valor);
-    }
 }

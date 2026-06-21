@@ -8,7 +8,6 @@ public class DescuentoMov {
     private String desMovConTipDesCod;
     private int desMovConSec;
     private int desMovDesSec;
-    private int desMovSec;
     private int desMovPlaAnio;
     private int desMovPlaMes;
     private int desMovPlaNum;
@@ -20,7 +19,7 @@ public class DescuentoMov {
     }
 
     public DescuentoMov(int desMovConEmpCod, int desMovConOrgCod, String desMovConTipDesCod,
-                        int desMovConSec, int desMovDesSec, int desMovSec, int desMovPlaAnio,
+                        int desMovConSec, int desMovDesSec, int desMovPlaAnio,
                         int desMovPlaMes, int desMovPlaNum, String desMovTipMovCod,
                         BigDecimal desMovMon, String desMovEstReg) {
         this.desMovConEmpCod = desMovConEmpCod;
@@ -28,7 +27,6 @@ public class DescuentoMov {
         this.desMovConTipDesCod = desMovConTipDesCod;
         this.desMovConSec = desMovConSec;
         this.desMovDesSec = desMovDesSec;
-        this.desMovSec = desMovSec;
         this.desMovPlaAnio = desMovPlaAnio;
         this.desMovPlaMes = desMovPlaMes;
         this.desMovPlaNum = desMovPlaNum;
@@ -51,9 +49,6 @@ public class DescuentoMov {
 
     public int getDesMovDesSec() { return desMovDesSec; }
     public void setDesMovDesSec(int desMovDesSec) { this.desMovDesSec = desMovDesSec; }
-
-    public int getDesMovSec() { return desMovSec; }
-    public void setDesMovSec(int desMovSec) { this.desMovSec = desMovSec; }
 
     public int getDesMovPlaAnio() { return desMovPlaAnio; }
     public void setDesMovPlaAnio(int desMovPlaAnio) { this.desMovPlaAnio = desMovPlaAnio; }

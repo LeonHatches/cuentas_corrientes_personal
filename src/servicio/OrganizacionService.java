@@ -43,7 +43,7 @@ public class OrganizacionService {
     public String prepararReactivar(String strCodigo) { return cambiarEstadoPreparar(strCodigo, "A", "REACTIVAR"); }
 
     private String cambiarEstadoPreparar(String strCodigo, String nuevoEstado, String operacion) {
-        Integer codigo = parseEntero(strCodigo, 0, 9999);
+        Integer codigo = parseEntero(strCodigo, 1, 9999);
         if (codigo == null) return "Codigo no valido.";
 
         Organizacion encontrada = dao.buscarPorCodigo(codigo);
@@ -85,8 +85,8 @@ public class OrganizacionService {
     }
 
     private Organizacion construirOrganizacion(String strCodigo, String nombre, String ruc, String strTipOrgCod, String estado) {
-        Integer codigo = parseEntero(strCodigo, 0, 9999);
-        Integer tipOrgCod = parseEntero(strTipOrgCod, 0, 99);
+        Integer codigo = parseEntero(strCodigo, 1, 9999);
+        Integer tipOrgCod = parseEntero(strTipOrgCod, 1, 99);
         nombre = normalizar(nombre);
         ruc = normalizar(ruc);
 

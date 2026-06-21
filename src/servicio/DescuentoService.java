@@ -5,6 +5,8 @@ import dao.DescuentoDAO;
 import modelo.Descuento;
 
 import java.math.BigDecimal;
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class DescuentoService {
@@ -98,16 +100,19 @@ public class DescuentoService {
                                          String ctaCod, String fec, String monTot, String numCuo,
                                          String cuoDes, String monCuo, String monCuoAcu, String estado) {
         ClaveDescuento clave = construirClave(emp, org, tipDes, conSec, desSec);
-        Integer cuenta = parseEntero(ctaCod, 0, 99999999);
+        Integer cuenta = parseEntero(ctaCod, 1, 99999999);
         Integer fecha = parseFecha(fec);
-        Integer numeroCuotas = parseEntero(numCuo, 0, 9);
-        Integer cuotaDescontada = parseEntero(cuoDes, 0, 9);
+        Integer numeroCuotas = parseEntero(numCuo, 1, 6);
+        Integer cuotaDescontada = parseEntero(cuoDes, 0, 6);
         BigDecimal montoTotal = parseDecimal(monTot);
         BigDecimal montoCuota = parseDecimal(monCuo);
         BigDecimal montoAcumulado = parseDecimal(monCuoAcu);
 
         if (clave == null || cuenta == null || fecha == null || numeroCuotas == null || cuotaDescontada == null) return null;
         if (montoTotal == null || montoCuota == null || montoAcumulado == null) return null;
+        if (cuotaDescontada > numeroCuotas) return null;
+        if (montoTotal.compareTo(BigDecimal.ZERO) <= 0 || montoCuota.compareTo(BigDecimal.ZERO) <= 0) return null;
+        if (montoAcumulado.compareTo(BigDecimal.ZERO) < 0) return null;
         if (convenioDao.buscarPorCodigo(clave.empCod, clave.orgCod, clave.tipDesCod, clave.conSec) == null) return null;
 
         return new Descuento(clave.empCod, clave.orgCod, clave.tipDesCod, clave.conSec, clave.desSec, cuenta, fecha,
@@ -115,10 +120,10 @@ public class DescuentoService {
     }
 
     private ClaveDescuento construirClave(String emp, String org, String tipDes, String conSec, String desSec) {
-        Integer empCod = parseEntero(emp, 0, 99);
-        Integer orgCod = parseEntero(org, 0, 9999);
-        Integer convenioSec = parseEntero(conSec, 0, 99);
-        Integer descuentoSec = parseEntero(desSec, 0, 99);
+        Integer empCod = parseEntero(emp, 1, 99);
+        Integer orgCod = parseEntero(org, 1, 9999);
+        Integer convenioSec = parseEntero(conSec, 1, 99);
+        Integer descuentoSec = parseEntero(desSec, 1, 99);
         tipDes = normalizar(tipDes);
         if (empCod == null || orgCod == null || convenioSec == null || descuentoSec == null || tipDes.length() != 1) return null;
         return new ClaveDescuento(empCod, orgCod, tipDes, convenioSec, descuentoSec);
@@ -145,7 +150,15 @@ public class DescuentoService {
     private Integer parseFecha(String texto) {
         String valor = normalizar(texto);
         if (!valor.matches("\\d{8}")) return null;
-        return Integer.parseInt(valor);
+        int anio = Integer.parseInt(valor.substring(0, 4));
+        int mes = Integer.parseInt(valor.substring(4, 6));
+        int dia = Integer.parseInt(valor.substring(6, 8));
+        try {
+            LocalDate.of(anio, mes, dia);
+            return Integer.parseInt(valor);
+        } catch (DateTimeException e) {
+            return null;
+        }
     }
 
     private BigDecimal parseDecimal(String texto) {

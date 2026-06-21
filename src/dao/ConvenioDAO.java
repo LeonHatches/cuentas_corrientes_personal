@@ -10,7 +10,7 @@ import java.util.List;
 public class ConvenioDAO {
 
     public boolean insertar(Convenio convenio) {
-        String sql = "INSERT INTO R1T_CONVENIO (ConEmpCod, ConOrgCod, ConTipDesCod, ConSec, ConDes, ConActRef, ConActFec, ConCon, ConEstReg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO R1T_CONVENIO (ConEmpCod, ConOrgCod, ConTipDesCod, ConSec, ConDes, ConActCod, ConCon, ConEstReg) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = ConexionBD.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -24,20 +24,19 @@ public class ConvenioDAO {
     }
 
     public boolean modificarDatos(Convenio convenio) {
-        String sql = "UPDATE R1T_CONVENIO SET ConDes = ?, ConActRef = ?, ConActFec = ?, ConCon = ? " +
+        String sql = "UPDATE R1T_CONVENIO SET ConDes = ?, ConActCod = ?, ConCon = ? " +
                 "WHERE ConEmpCod = ? AND ConOrgCod = ? AND ConTipDesCod = ? AND ConSec = ?";
 
         try (Connection con = ConexionBD.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setString(1, convenio.getConDes());
-            ps.setString(2, convenio.getConActRef());
-            ps.setInt(3, convenio.getConActFec());
-            ps.setString(4, convenio.getConCon());
-            ps.setInt(5, convenio.getConEmpCod());
-            ps.setInt(6, convenio.getConOrgCod());
-            ps.setString(7, convenio.getConTipDesCod());
-            ps.setInt(8, convenio.getConSec());
+            ps.setInt(2, convenio.getConActCod());
+            ps.setString(3, convenio.getConCon());
+            ps.setInt(4, convenio.getConEmpCod());
+            ps.setInt(5, convenio.getConOrgCod());
+            ps.setString(6, convenio.getConTipDesCod());
+            ps.setInt(7, convenio.getConSec());
 
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -66,7 +65,7 @@ public class ConvenioDAO {
     }
 
     public Convenio buscarPorCodigo(int empCod, int orgCod, String tipDesCod, int sec) {
-        String sql = "SELECT ConEmpCod, ConOrgCod, ConTipDesCod, ConSec, ConDes, ConActRef, ConActFec, ConCon, ConEstReg " +
+        String sql = "SELECT ConEmpCod, ConOrgCod, ConTipDesCod, ConSec, ConDes, ConActCod, ConCon, ConEstReg " +
                 "FROM R1T_CONVENIO WHERE ConEmpCod = ? AND ConOrgCod = ? AND ConTipDesCod = ? AND ConSec = ?";
 
         try (Connection con = ConexionBD.getConnection();
@@ -95,7 +94,7 @@ public class ConvenioDAO {
 
     public List<Convenio> listarTodos() {
         List<Convenio> lista = new ArrayList<>();
-        String sql = "SELECT ConEmpCod, ConOrgCod, ConTipDesCod, ConSec, ConDes, ConActRef, ConActFec, ConCon, ConEstReg " +
+        String sql = "SELECT ConEmpCod, ConOrgCod, ConTipDesCod, ConSec, ConDes, ConActCod, ConCon, ConEstReg " +
                 "FROM R1T_CONVENIO ORDER BY ConEmpCod, ConOrgCod, ConTipDesCod, ConSec";
 
         try (Connection con = ConexionBD.getConnection();
@@ -118,10 +117,9 @@ public class ConvenioDAO {
         ps.setString(3, convenio.getConTipDesCod());
         ps.setInt(4, convenio.getConSec());
         ps.setString(5, convenio.getConDes());
-        ps.setString(6, convenio.getConActRef());
-        ps.setInt(7, convenio.getConActFec());
-        ps.setString(8, convenio.getConCon());
-        ps.setString(9, convenio.getConEstReg());
+        ps.setInt(6, convenio.getConActCod());
+        ps.setString(7, convenio.getConCon());
+        ps.setString(8, convenio.getConEstReg());
     }
 
     private Convenio leerConvenio(ResultSet rs) throws SQLException {
@@ -131,8 +129,7 @@ public class ConvenioDAO {
                 rs.getString("ConTipDesCod"),
                 rs.getInt("ConSec"),
                 rs.getString("ConDes"),
-                rs.getString("ConActRef"),
-                rs.getInt("ConActFec"),
+                rs.getInt("ConActCod"),
                 rs.getString("ConCon"),
                 rs.getString("ConEstReg")
         );

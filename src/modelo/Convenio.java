@@ -6,8 +6,7 @@ public class Convenio {
     private String conTipDesCod;
     private int conSec;
     private String conDes;
-    private String conActRef;
-    private int conActFec;
+    private int conActCod;
     private String conCon;
     private String conEstReg;
 
@@ -15,14 +14,13 @@ public class Convenio {
     }
 
     public Convenio(int conEmpCod, int conOrgCod, String conTipDesCod, int conSec,
-                    String conDes, String conActRef, int conActFec, String conCon, String conEstReg) {
+                    String conDes, int conActCod, String conCon, String conEstReg) {
         this.conEmpCod = conEmpCod;
         this.conOrgCod = conOrgCod;
         this.conTipDesCod = conTipDesCod;
         this.conSec = conSec;
         this.conDes = conDes;
-        this.conActRef = conActRef;
-        this.conActFec = conActFec;
+        this.conActCod = conActCod;
         this.conCon = conCon;
         this.conEstReg = conEstReg;
     }
@@ -42,11 +40,8 @@ public class Convenio {
     public String getConDes() { return conDes; }
     public void setConDes(String conDes) { this.conDes = conDes; }
 
-    public String getConActRef() { return conActRef; }
-    public void setConActRef(String conActRef) { this.conActRef = conActRef; }
-
-    public int getConActFec() { return conActFec; }
-    public void setConActFec(int conActFec) { this.conActFec = conActFec; }
+    public int getConActCod() { return conActCod; }
+    public void setConActCod(int conActCod) { this.conActCod = conActCod; }
 
     public String getConCon() { return conCon; }
     public void setConCon(String conCon) { this.conCon = conCon; }
