@@ -37,7 +37,7 @@ public class ActaFrame extends JFrame {
     private final Color OK = new Color(35, 140, 70);
 
     public ActaFrame() {
-        setTitle("Mantenimiento - Actas");
+        setTitle("R13019 - Actas");
         setSize(950, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -54,7 +54,7 @@ public class ActaFrame extends JFrame {
         panelPrincipal.setBorder(new EmptyBorder(25, 25, 20, 25));
         setContentPane(panelPrincipal);
 
-        JLabel titulo = new JLabel("0019 - MANTENIMIENTO DE ACTAS", SwingConstants.CENTER);
+        JLabel titulo = new JLabel("R13019 - MANTENIMIENTO DE ACTAS", SwingConstants.CENTER);
         titulo.setFont(new Font("Segoe UI", Font.BOLD, 25));
         titulo.setForeground(VERDE_OSCURO);
 

@@ -7,8 +7,8 @@ public class OrganizacionFrame extends MaestroFrameBase {
     private final OrganizacionService service = new OrganizacionService();
 
     public OrganizacionFrame() {
-        super("0014 - Mantenimiento de Organizacion",
-                "0014 - MANTENIMIENTO DE ORGANIZACION",
+        super("R13014 - Organizacion",
+                "R13014 - MANTENIMIENTO DE ORGANIZACION",
                 "Datos_de_la_Organizacion",
                 "Lista_de_Organizaciones",
                 new String[][]{

@@ -30,7 +30,7 @@ public class TrabajadorFrame extends JFrame {
     private final Color OK = new Color(35, 140, 70);
 
     public TrabajadorFrame() {
-        setTitle("0010 - Mantenimiento de Trabajador");
+        setTitle("R13010 - Mantenimiento de Trabajador");
         setSize(1050, 780);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -47,7 +47,7 @@ public class TrabajadorFrame extends JFrame {
         panelPrincipal.setBorder(new EmptyBorder(20, 20, 20, 20));
         setContentPane(panelPrincipal);
 
-        JLabel titulo = new JLabel("0010 - MANTENIMIENTO DE TRABAJADOR", SwingConstants.CENTER);
+        JLabel titulo = new JLabel("R13010 - MANTENIMIENTO DE TRABAJADOR", SwingConstants.CENTER);
         titulo.setFont(new Font("Segoe UI", Font.BOLD, 26));
         titulo.setForeground(VERDE_OSCURO);
 

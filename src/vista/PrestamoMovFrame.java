@@ -40,7 +40,7 @@ public class PrestamoMovFrame extends JFrame {
     private final Color OK = new Color(35, 140, 70);
 
     public PrestamoMovFrame() {
-        setTitle("Mantenimiento - Cuotas de Préstamo (Movimientos)");
+        setTitle("R13012 - Préstamo Movimiento");
         setSize(950, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -57,7 +57,7 @@ public class PrestamoMovFrame extends JFrame {
         panelPrincipal.setBorder(new EmptyBorder(25, 25, 20, 25));
         setContentPane(panelPrincipal);
 
-        JLabel titulo = new JLabel("0012 - MANTENIMIENTO DE CUOTAS DE PRÉSTAMO", SwingConstants.CENTER);
+        JLabel titulo = new JLabel("R13012 - MANTENIMIENTO DE CUOTAS DE PRÉSTAMO", SwingConstants.CENTER);
         titulo.setFont(new Font("Segoe UI", Font.BOLD, 25));
         titulo.setForeground(VERDE_OSCURO);
 

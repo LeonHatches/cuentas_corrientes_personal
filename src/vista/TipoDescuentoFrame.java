@@ -28,7 +28,7 @@ public class TipoDescuentoFrame extends JFrame {
     private final Color OK = new Color(35, 140, 70);
 
     public TipoDescuentoFrame() {
-        setTitle("Mantenimiento - Tipo Descuento");
+        setTitle("R13007 - Tipo Descuento");
         setSize(930, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

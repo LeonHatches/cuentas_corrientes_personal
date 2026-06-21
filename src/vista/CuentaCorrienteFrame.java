@@ -39,7 +39,7 @@ public class CuentaCorrienteFrame extends JFrame {
     private final Color OK = new Color(35, 140, 70);
 
     public CuentaCorrienteFrame() {
-        setTitle("Mantenimiento - Cuenta Corriente");
+        setTitle("R13016 - Cuenta Corriente");
         setSize(950, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -56,7 +56,7 @@ public class CuentaCorrienteFrame extends JFrame {
         panelPrincipal.setBorder(new EmptyBorder(25, 25, 20, 25));
         setContentPane(panelPrincipal);
 
-        JLabel titulo = new JLabel("0016 - MANTENIMIENTO DE CUENTAS CORRIENTES", SwingConstants.CENTER);
+        JLabel titulo = new JLabel("R13016 - MANTENIMIENTO DE CUENTAS CORRIENTES", SwingConstants.CENTER);
         titulo.setFont(new Font("Segoe UI", Font.BOLD, 25));
         titulo.setForeground(VERDE_OSCURO);
 

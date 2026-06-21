@@ -28,7 +28,7 @@ public class CentroCostoFrame extends JFrame {
     private final Color OK = new Color(35, 140, 70);
 
     public CentroCostoFrame() {
-        setTitle("0009 - Mantenimiento de Centro de Costo");
+        setTitle("R13009 - Centro de Costo");
         setSize(930, 750);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -44,7 +44,7 @@ public class CentroCostoFrame extends JFrame {
         panelPrincipal.setBorder(new EmptyBorder(25, 25, 20, 25));
         setContentPane(panelPrincipal);
 
-        JLabel titulo = new JLabel("0009 - MANTENIMIENTO DE CENTRO DE COSTO", SwingConstants.CENTER);
+        JLabel titulo = new JLabel("R13009 - MANTENIMIENTO DE CENTRO DE COSTO", SwingConstants.CENTER);
         titulo.setFont(new Font("Segoe UI", Font.BOLD, 25));
         titulo.setForeground(VERDE_OSCURO);
 

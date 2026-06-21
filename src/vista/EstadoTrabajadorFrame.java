@@ -28,7 +28,7 @@ public class EstadoTrabajadorFrame extends JFrame {
     private final Color OK = new Color(35, 140, 70);
 
     public EstadoTrabajadorFrame() {
-        setTitle("Mantenimiento - Estado Trabajador");
+        setTitle("R13004 - Estado Trabajador");
         setSize(930, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

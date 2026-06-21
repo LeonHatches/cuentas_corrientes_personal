@@ -29,7 +29,7 @@ public class EmpresaFrame extends JFrame {
     private final Color OK = new Color(35, 140, 70);
 
     public EmpresaFrame() {
-        setTitle("0013 - Mantenimiento de Empresa");
+        setTitle("R13013 - Empresa");
         setSize(930, 750);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -45,7 +45,7 @@ public class EmpresaFrame extends JFrame {
         panelPrincipal.setBorder(new EmptyBorder(25, 25, 20, 25));
         setContentPane(panelPrincipal);
 
-        JLabel titulo = new JLabel("0013 - MANTENIMIENTO DE EMPRESA", SwingConstants.CENTER);
+        JLabel titulo = new JLabel("R13013 - MANTENIMIENTO DE EMPRESA", SwingConstants.CENTER);
         titulo.setFont(new Font("Segoe UI", Font.BOLD, 25));
         titulo.setForeground(VERDE_OSCURO);
 

@@ -61,7 +61,7 @@ public class MenuPrincipalFrame extends JFrame {
         BotonRedondeado btnDescuento = new BotonRedondeado("Descuento");
         BotonRedondeado btnDescuentoMov = new BotonRedondeado("Descuento Mov.");
         BotonRedondeado btnPrestamo = new BotonRedondeado("Préstamo");
-        BotonRedondeado btnPrestamoMov = new BotonRedondeado("Cuotas de Préstamo");
+        BotonRedondeado btnPrestamoMov = new BotonRedondeado("Préstamo Mov.");
         BotonRedondeado btnCuentaCorriente = new BotonRedondeado("Cuenta Corriente");
         BotonRedondeado btnActa = new BotonRedondeado("Actas");
 

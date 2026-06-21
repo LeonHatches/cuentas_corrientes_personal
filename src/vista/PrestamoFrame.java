@@ -40,7 +40,7 @@ public class PrestamoFrame extends JFrame {
     private final Color OK = new Color(35, 140, 70);
 
     public PrestamoFrame() {
-        setTitle("Mantenimiento - Préstamos");
+        setTitle("R13011 - Préstamos");
         setSize(950, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -57,7 +57,7 @@ public class PrestamoFrame extends JFrame {
         panelPrincipal.setBorder(new EmptyBorder(25, 25, 20, 25));
         setContentPane(panelPrincipal);
 
-        JLabel titulo = new JLabel("0011 - MANTENIMIENTO DE PRÉSTAMO", SwingConstants.CENTER);
+        JLabel titulo = new JLabel("R13011 - MANTENIMIENTO DE PRÉSTAMO", SwingConstants.CENTER);
         titulo.setFont(new Font("Segoe UI", Font.BOLD, 25));
         titulo.setForeground(VERDE_OSCURO);
 

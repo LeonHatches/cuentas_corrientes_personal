@@ -28,7 +28,7 @@ public class TipoCuentaCorrienteFrame extends JFrame {
     private final Color OK = new Color(35, 140, 70);
 
     public TipoCuentaCorrienteFrame() {
-        setTitle("Mantenimiento - Tipo Cuenta Corriente");
+        setTitle("R13008 - Tipo Cuenta Corriente");
         setSize(930, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

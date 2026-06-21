@@ -28,7 +28,7 @@ public class TipoTrabajadorFrame extends JFrame {
     private final Color OK = new Color(35, 140, 70);
 
     public TipoTrabajadorFrame() {
-        setTitle("Mantenimiento - Tipo Trabajador");
+        setTitle("R13003 - Tipo Trabajador");
         setSize(930, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

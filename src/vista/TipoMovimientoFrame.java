@@ -28,7 +28,7 @@ public class TipoMovimientoFrame extends JFrame {
     private final Color OK = new Color(35, 140, 70);
 
     public TipoMovimientoFrame() {
-        setTitle("Mantenimiento - Tipo Movimiento");
+        setTitle("R13006 - Tipo Movimiento");
         setSize(930, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
