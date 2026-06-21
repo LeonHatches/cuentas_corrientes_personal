@@ -11,7 +11,7 @@ public class MenuPrincipalFrame extends JFrame {
 
     public MenuPrincipalFrame() {
         setTitle("Cuentas Corrientes de Personal");
-        setSize(750, 550);
+        setSize(920, 760);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -19,28 +19,19 @@ public class MenuPrincipalFrame extends JFrame {
     }
 
     private void construirInterfaz() {
-        JPanel panelPrincipal = new JPanel(new BorderLayout());
+        JPanel panelPrincipal = new JPanel(new BorderLayout(0, 18));
         panelPrincipal.setBackground(FONDO);
-        panelPrincipal.setBorder(new EmptyBorder(30, 40, 30, 40));
+        panelPrincipal.setBorder(new EmptyBorder(34, 48, 34, 48));
         setContentPane(panelPrincipal);
 
         JLabel titulo = new JLabel("SISTEMA DE CUENTAS CORRIENTES DE PERSONAL", SwingConstants.CENTER);
-        titulo.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        titulo.setFont(new Font("Segoe UI", Font.BOLD, 25));
         titulo.setForeground(TEXTO);
 
         JPanel panelTitulo = new JPanel(new BorderLayout());
         panelTitulo.setBackground(FONDO);
         panelTitulo.add(titulo, BorderLayout.CENTER);
-        panelTitulo.setBorder(new EmptyBorder(0, 0, 30, 0));
-
-        JPanel panelColumnas = new JPanel();
-        panelColumnas.setLayout(new BoxLayout(panelColumnas, BoxLayout.X_AXIS));
-        panelColumnas.setBackground(FONDO);
-
-        JPanel panelIzquierdo = new JPanel();
-        panelIzquierdo.setLayout(new BoxLayout(panelIzquierdo, BoxLayout.Y_AXIS));
-        panelIzquierdo.setBackground(FONDO);
-        panelIzquierdo.setAlignmentY(Component.TOP_ALIGNMENT);
+        panelTitulo.setBorder(new EmptyBorder(0, 0, 22, 0));
 
         BotonRedondeado btnEstadoRegistro = new BotonRedondeado("Estado de Registro");
         BotonRedondeado btnTipoTrabajador = new BotonRedondeado("Tipo Trabajador");
@@ -60,56 +51,59 @@ public class MenuPrincipalFrame extends JFrame {
         btnTipoDescuento.addActionListener(e -> abrirVentana(new TipoDescuentoFrame()));
         btnTipoCuentaCorriente.addActionListener(e -> abrirVentana(new TipoCuentaCorrienteFrame()));
 
-        BotonRedondeado[] botonesIzquierda = {btnEstadoRegistro, btnTipoTrabajador, btnEstadoTrabajador,
-                btnTipoPrestamo, btnTipoMovimiento, btnTipoOrganizacion,
-                btnTipoDescuento, btnTipoCuentaCorriente};
-
-        int espacio = 15;
-        for (BotonRedondeado btn : botonesIzquierda) {
-            btn.setAlignmentX(Component.CENTER_ALIGNMENT);
-            panelIzquierdo.add(btn);
-            panelIzquierdo.add(Box.createRigidArea(new Dimension(0, espacio)));
-        }
-
-        JPanel panelDerecho = new JPanel();
-        panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.Y_AXIS));
-        panelDerecho.setBackground(FONDO);
-        panelDerecho.setAlignmentY(Component.TOP_ALIGNMENT);
-
         BotonRedondeado btnCentroCosto = new BotonRedondeado("Centro de Costo");
         BotonRedondeado btnEmpresa = new BotonRedondeado("Empresa");
         BotonRedondeado btnTrabajador = new BotonRedondeado("Trabajador");
+        BotonRedondeado btnOrganizacion = new BotonRedondeado("Organizacion");
+        BotonRedondeado btnConvenio = new BotonRedondeado("Convenio");
+        BotonRedondeado btnDescuento = new BotonRedondeado("Descuento");
+        BotonRedondeado btnDescuentoMov = new BotonRedondeado("Descuento Mov.");
 
         btnCentroCosto.addActionListener(e -> abrirVentana(new CentroCostoFrame()));
         btnEmpresa.addActionListener(e -> abrirVentana(new EmpresaFrame()));
+        btnOrganizacion.addActionListener(e -> abrirVentana(new OrganizacionFrame()));
+        btnConvenio.addActionListener(e -> abrirVentana(new ConvenioFrame()));
+        btnDescuento.addActionListener(e -> abrirVentana(new DescuentoFrame()));
+        btnDescuentoMov.addActionListener(e -> abrirVentana(new DescuentoMovFrame()));
 
         // --- AQUÍ ESTÁ LA LÍNEA AGREGADA PARA QUE FUNCIONE EL BOTÓN ---
         btnTrabajador.addActionListener(e -> abrirVentana(new TrabajadorFrame()));
 
-        BotonRedondeado[] botonesDerecha = {btnCentroCosto, btnEmpresa, btnTrabajador};
+        JPanel panelBotones = new JPanel(new GridLayout(8, 2, 32, 16));
+        panelBotones.setBackground(FONDO);
+        panelBotones.setBorder(new EmptyBorder(0, 105, 4, 105));
 
-        for (BotonRedondeado btn : botonesDerecha) {
-            btn.setAlignmentX(Component.CENTER_ALIGNMENT);
-            panelDerecho.add(btn);
-            panelDerecho.add(Box.createRigidArea(new Dimension(0, espacio)));
+        BotonRedondeado[] botones = {
+                btnEstadoRegistro, btnCentroCosto,
+                btnTipoTrabajador, btnEmpresa,
+                btnEstadoTrabajador, btnTrabajador,
+                btnTipoPrestamo, btnOrganizacion,
+                btnTipoMovimiento, btnConvenio,
+                btnTipoOrganizacion, btnDescuento,
+                btnTipoDescuento, btnDescuentoMov,
+                btnTipoCuentaCorriente
+        };
+
+        for (BotonRedondeado btn : botones) {
+            btn.setPreferredSize(new Dimension(260, 44));
+            panelBotones.add(btn);
         }
 
-        panelColumnas.add(Box.createHorizontalGlue());
-        panelColumnas.add(panelIzquierdo);
-        panelColumnas.add(Box.createRigidArea(new Dimension(25, 0)));
-        panelColumnas.add(panelDerecho);
-        panelColumnas.add(Box.createHorizontalGlue());
+        JPanel espacioVacio = new JPanel();
+        espacioVacio.setOpaque(false);
+        panelBotones.add(espacioVacio);
 
         JPanel panelSur = new JPanel();
         panelSur.setBackground(FONDO);
-        panelSur.setBorder(new EmptyBorder(15, 0, 0, 0));
+        panelSur.setBorder(new EmptyBorder(12, 0, 0, 0));
 
         BotonRedondeado btnSalir = new BotonRedondeado("Salir del Sistema");
+        btnSalir.setPreferredSize(new Dimension(260, 44));
         btnSalir.addActionListener(e -> dispose());
         panelSur.add(btnSalir);
 
         panelPrincipal.add(panelTitulo, BorderLayout.NORTH);
-        panelPrincipal.add(panelColumnas, BorderLayout.CENTER);
+        panelPrincipal.add(panelBotones, BorderLayout.CENTER);
         panelPrincipal.add(panelSur, BorderLayout.SOUTH);
     }
 

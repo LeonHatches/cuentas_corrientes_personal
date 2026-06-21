@@ -24,6 +24,7 @@ public class BotonRedondeado extends JButton {
         setBorderPainted(false);
         setContentAreaFilled(false);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
+        setMargin(new Insets(6, 12, 6, 12));
 
         setPreferredSize(new Dimension(210, 40));
         setMaximumSize(new Dimension(210, 40));
@@ -51,12 +52,17 @@ public class BotonRedondeado extends JButton {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Forma más parecida al encabezado de la tabla
+        int margen = 1;
+        int ancho = getWidth() - 3;
+        int alto = getHeight() - 3;
+
         g2.setColor(colorActual);
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 8, 8);
+        g2.fillRoundRect(margen, margen, ancho, alto, 8, 8);
 
         // Borde suave verde
+        g2.setStroke(new BasicStroke(1.4f));
         g2.setColor(new Color(140, 180, 145));
-        g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 8, 8);
+        g2.drawRoundRect(margen, margen, ancho, alto, 8, 8);
 
         g2.dispose();
 
