@@ -2,24 +2,29 @@ package modelo;
 
 public class Prestamo {
 
-    private int preTraCod;      // PK, FK (N 6)
-    private int preTipCod;      // PK, FK (N 2)
-    private int preFecPre;      // PK (N 8) - Formato AAAAMMDD
-    private double preMnt;      // N (10, 2)
-    private int preCanCuo;      // N (2)
-    private double preMntCuo;   // N (10, 2)
-    private String preEstReg;   // FK (A 1)
+    private int preTraCod;
+    private int preTipCod;
+    private int preSec;
+    private int preCtaCod;
+    private int preFec;
+    private double preMon;
+    private int preCuo;
+    private double preMonCuo;
+    private double preMonAcuDes;
+    private String preEstReg;
 
-    public Prestamo() {
-    }
+    public Prestamo() {}
 
-    public Prestamo(int preTraCod, int preTipCod, int preFecPre, double preMnt, int preCanCuo, double preMntCuo, String preEstReg) {
+    public Prestamo(int preTraCod, int preTipCod, int preSec, int preCtaCod, int preFec, double preMon, int preCuo, double preMonCuo, double preMonAcuDes, String preEstReg) {
         this.preTraCod = preTraCod;
         this.preTipCod = preTipCod;
-        this.preFecPre = preFecPre;
-        this.preMnt = preMnt;
-        this.preCanCuo = preCanCuo;
-        this.preMntCuo = preMntCuo;
+        this.preSec = preSec;
+        this.preCtaCod = preCtaCod;
+        this.preFec = preFec;
+        this.preMon = preMon;
+        this.preCuo = preCuo;
+        this.preMonCuo = preMonCuo;
+        this.preMonAcuDes = preMonAcuDes;
         this.preEstReg = preEstReg;
     }
 
@@ -29,17 +34,26 @@ public class Prestamo {
     public int getPreTipCod() { return preTipCod; }
     public void setPreTipCod(int preTipCod) { this.preTipCod = preTipCod; }
 
-    public int getPreFecPre() { return preFecPre; }
-    public void setPreFecPre(int preFecPre) { this.preFecPre = preFecPre; }
+    public int getPreSec() { return preSec; }
+    public void setPreSec(int preSec) { this.preSec = preSec; }
 
-    public double getPreMnt() { return preMnt; }
-    public void setPreMnt(double preMnt) { this.preMnt = preMnt; }
+    public int getPreCtaCod() { return preCtaCod; }
+    public void setPreCtaCod(int preCtaCod) { this.preCtaCod = preCtaCod; }
 
-    public int getPreCanCuo() { return preCanCuo; }
-    public void setPreCanCuo(int preCanCuo) { this.preCanCuo = preCanCuo; }
+    public int getPreFec() { return preFec; }
+    public void setPreFec(int preFec) { this.preFec = preFec; }
 
-    public double getPreMntCuo() { return preMntCuo; }
-    public void setPreMntCuo(double preMntCuo) { this.preMntCuo = preMntCuo; }
+    public double getPreMon() { return preMon; }
+    public void setPreMon(double preMon) { this.preMon = preMon; }
+
+    public int getPreCuo() { return preCuo; }
+    public void setPreCuo(int preCuo) { this.preCuo = preCuo; }
+
+    public double getPreMonCuo() { return preMonCuo; }
+    public void setPreMonCuo(double preMonCuo) { this.preMonCuo = preMonCuo; }
+
+    public double getPreMonAcuDes() { return preMonAcuDes; }
+    public void setPreMonAcuDes(double preMonAcuDes) { this.preMonAcuDes = preMonAcuDes; }
 
     public String getPreEstReg() { return preEstReg; }
     public void setPreEstReg(String preEstReg) { this.preEstReg = preEstReg; }
