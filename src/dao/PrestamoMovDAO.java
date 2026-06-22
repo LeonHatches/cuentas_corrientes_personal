@@ -2,7 +2,6 @@ package dao;
 
 import conexion.ConexionBD;
 import modelo.PrestamoMov;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,138 +9,84 @@ import java.util.List;
 public class PrestamoMovDAO {
 
     public boolean insertar(PrestamoMov pm) {
-        String sql = "INSERT INTO R1T_PRESTAMO_MOV (PreMovTraCod, PreMovTipCod, PreMovFecPre, PreMovNumCuo, PreMovFecPag, PreMovMntCuo, PreMovEstReg) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        try (Connection con = ConexionBD.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
+        String sql = "INSERT INTO R1T_PRESTAMO_MOV (PreMovTraCod, PreMovTipCod, PreMovPreSec, PreMovPlaAño, PreMovPlaMes, PreMovPlaNum, PreMovTipMovCod, PreMovMonDes, PreMovEstReg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection con = ConexionBD.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, pm.getPreMovTraCod());
             ps.setInt(2, pm.getPreMovTipCod());
-            ps.setInt(3, pm.getPreMovFecPre());
-            ps.setInt(4, pm.getPreMovNumCuo());
-            ps.setInt(5, pm.getPreMovFecPag());
-            ps.setDouble(6, pm.getPreMovMntCuo());
-
-            if (pm.getPreMovEstReg() == null) {
-                ps.setNull(7, Types.CHAR);
-            } else {
-                ps.setString(7, pm.getPreMovEstReg());
-            }
-
+            ps.setInt(3, pm.getPreMovPreSec());
+            ps.setInt(4, pm.getPreMovPlaAnio());
+            ps.setInt(5, pm.getPreMovPlaMes());
+            ps.setInt(6, pm.getPreMovPlaNum());
+            ps.setString(7, pm.getPreMovTipMovCod());
+            ps.setDouble(8, pm.getPreMovMonDes());
+            ps.setString(9, pm.getPreMovEstReg() == null ? "A" : pm.getPreMovEstReg());
             return ps.executeUpdate() > 0;
-
-        } catch (SQLIntegrityConstraintViolationException e) {
-            System.out.println("Error: El movimiento ya existe o hay un problema de llave foránea.");
-            return false;
         } catch (SQLException e) {
-            System.out.println("Error al insertar movimiento de préstamo: " + e.getMessage());
+            System.out.println("[ERROR] AL INSERTAR MOVIMIENTO: " + e.getMessage());
             return false;
         }
     }
 
     public boolean modificarDatos(PrestamoMov pm) {
-        // En modificar, solo cambiamos los datos transaccionales (fecha de pago y monto)
-        String sql = "UPDATE R1T_PRESTAMO_MOV SET PreMovFecPag = ?, PreMovMntCuo = ? WHERE PreMovTraCod = ? AND PreMovTipCod = ? AND PreMovFecPre = ? AND PreMovNumCuo = ?";
-
-        try (Connection con = ConexionBD.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setInt(1, pm.getPreMovFecPag());
-            ps.setDouble(2, pm.getPreMovMntCuo());
-
+        String sql = "UPDATE R1T_PRESTAMO_MOV SET PreMovTipMovCod=?, PreMovMonDes=? WHERE PreMovTraCod=? AND PreMovTipCod=? AND PreMovPreSec=? AND PreMovPlaAño=? AND PreMovPlaMes=? AND PreMovPlaNum=?";
+        try (Connection con = ConexionBD.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, pm.getPreMovTipMovCod());
+            ps.setDouble(2, pm.getPreMovMonDes());
             ps.setInt(3, pm.getPreMovTraCod());
             ps.setInt(4, pm.getPreMovTipCod());
-            ps.setInt(5, pm.getPreMovFecPre());
-            ps.setInt(6, pm.getPreMovNumCuo());
-
+            ps.setInt(5, pm.getPreMovPreSec());
+            ps.setInt(6, pm.getPreMovPlaAnio());
+            ps.setInt(7, pm.getPreMovPlaMes());
+            ps.setInt(8, pm.getPreMovPlaNum());
             return ps.executeUpdate() > 0;
-
         } catch (SQLException e) {
-            System.out.println("Error al modificar movimiento: " + e.getMessage());
+            System.out.println("[ERROR] AL MODIFICAR MOVIMIENTO: " + e.getMessage());
             return false;
         }
     }
 
-    public boolean cambiarEstadoRegistro(int traCod, int tipCod, int fecPre, int numCuo, String nuevoEstado) {
-        String sql = "UPDATE R1T_PRESTAMO_MOV SET PreMovEstReg = ? WHERE PreMovTraCod = ? AND PreMovTipCod = ? AND PreMovFecPre = ? AND PreMovNumCuo = ?";
-
-        try (Connection con = ConexionBD.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            if (nuevoEstado == null) {
-                ps.setNull(1, Types.CHAR);
-            } else {
-                ps.setString(1, nuevoEstado);
-            }
-
-            ps.setInt(2, traCod);
-            ps.setInt(3, tipCod);
-            ps.setInt(4, fecPre);
-            ps.setInt(5, numCuo);
-
+    public boolean cambiarEstadoRegistro(int traCod, int tipCod, int sec, int anio, int mes, int num, String est) {
+        String sql = "UPDATE R1T_PRESTAMO_MOV SET PreMovEstReg=? WHERE PreMovTraCod=? AND PreMovTipCod=? AND PreMovPreSec=? AND PreMovPlaAño=? AND PreMovPlaMes=? AND PreMovPlaNum=?";
+        try (Connection con = ConexionBD.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, est);
+            ps.setInt(2, traCod); ps.setInt(3, tipCod); ps.setInt(4, sec);
+            ps.setInt(5, anio); ps.setInt(6, mes); ps.setInt(7, num);
             return ps.executeUpdate() > 0;
-
         } catch (SQLException e) {
-            System.out.println("Error al cambiar estado: " + e.getMessage());
+            System.out.println("[ERROR] AL CAMBIAR ESTADO DE MOVIMIENTO: " + e.getMessage());
             return false;
         }
     }
 
-    public PrestamoMov buscarPorIds(int traCod, int tipCod, int fecPre, int numCuo) {
-        String sql = "SELECT * FROM R1T_PRESTAMO_MOV WHERE PreMovTraCod = ? AND PreMovTipCod = ? AND PreMovFecPre = ? AND PreMovNumCuo = ?";
-
-        try (Connection con = ConexionBD.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setInt(1, traCod);
-            ps.setInt(2, tipCod);
-            ps.setInt(3, fecPre);
-            ps.setInt(4, numCuo);
-
+    public PrestamoMov buscarPorIds(int traCod, int tipCod, int sec, int anio, int mes, int num) {
+        String sql = "SELECT * FROM R1T_PRESTAMO_MOV WHERE PreMovTraCod=? AND PreMovTipCod=? AND PreMovPreSec=? AND PreMovPlaAño=? AND PreMovPlaMes=? AND PreMovPlaNum=?";
+        try (Connection con = ConexionBD.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, traCod); ps.setInt(2, tipCod); ps.setInt(3, sec);
+            ps.setInt(4, anio); ps.setInt(5, mes); ps.setInt(6, num);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return new PrestamoMov(
-                            rs.getInt("PreMovTraCod"),
-                            rs.getInt("PreMovTipCod"),
-                            rs.getInt("PreMovFecPre"),
-                            rs.getInt("PreMovNumCuo"),
-                            rs.getInt("PreMovFecPag"),
-                            rs.getDouble("PreMovMntCuo"),
-                            rs.getString("PreMovEstReg")
-                    );
+                    return new PrestamoMov(rs.getInt("PreMovTraCod"), rs.getInt("PreMovTipCod"), rs.getInt("PreMovPreSec"), rs.getInt("PreMovPlaAño"), rs.getInt("PreMovPlaMes"), rs.getInt("PreMovPlaNum"), rs.getString("PreMovTipMovCod"), rs.getDouble("PreMovMonDes"), rs.getString("PreMovEstReg"));
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error al buscar movimiento: " + e.getMessage());
+            System.out.println("[ERROR] AL BUSCAR MOVIMIENTO: " + e.getMessage());
         }
         return null;
     }
 
-    public boolean existe(int traCod, int tipCod, int fecPre, int numCuo) {
-        return buscarPorIds(traCod, tipCod, fecPre, numCuo) != null;
+    public boolean existe(int traCod, int tipCod, int sec, int anio, int mes, int num) {
+        return buscarPorIds(traCod, tipCod, sec, anio, mes, num) != null;
     }
 
     public List<PrestamoMov> listarTodos() {
         List<PrestamoMov> lista = new ArrayList<>();
-        String sql = "SELECT * FROM R1T_PRESTAMO_MOV ORDER BY PreMovTraCod, PreMovTipCod, PreMovFecPre, PreMovNumCuo";
-
-        try (Connection con = ConexionBD.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-
+        String sql = "SELECT * FROM R1T_PRESTAMO_MOV ORDER BY PreMovTraCod, PreMovTipCod, PreMovPreSec, PreMovPlaAño, PreMovPlaMes, PreMovPlaNum";
+        try (Connection con = ConexionBD.getConnection(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
-                lista.add(new PrestamoMov(
-                        rs.getInt("PreMovTraCod"),
-                        rs.getInt("PreMovTipCod"),
-                        rs.getInt("PreMovFecPre"),
-                        rs.getInt("PreMovNumCuo"),
-                        rs.getInt("PreMovFecPag"),
-                        rs.getDouble("PreMovMntCuo"),
-                        rs.getString("PreMovEstReg")
-                ));
+                lista.add(new PrestamoMov(rs.getInt("PreMovTraCod"), rs.getInt("PreMovTipCod"), rs.getInt("PreMovPreSec"), rs.getInt("PreMovPlaAño"), rs.getInt("PreMovPlaMes"), rs.getInt("PreMovPlaNum"), rs.getString("PreMovTipMovCod"), rs.getDouble("PreMovMonDes"), rs.getString("PreMovEstReg")));
             }
         } catch (SQLException e) {
-            System.out.println("Error al listar movimientos: " + e.getMessage());
+            System.out.println("[ERROR] AL LISTAR MOVIMIENTOS: " + e.getMessage());
         }
         return lista;
     }
