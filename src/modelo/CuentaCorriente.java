@@ -2,45 +2,44 @@ package modelo;
 
 public class CuentaCorriente {
 
-    private int ctaCorTraCod;     // PK, FK (N 6)
-    private int ctaCorCtaCod;     // PK, FK (N 2)
-    private int ctaCorSec;        // PK (N 4)
-    private int ctaCorFec;        // N (8) - Formato AAAAMMDD
-    private String ctaCorDocRfe;  // A (15)
-    private double ctaCorMnt;     // N (10, 2)
-    private String ctaCorEstReg;  // FK (A 1)
+    private int ctaCod;         // PK (N 8)
+    private int ctaTraCod;      // FK (N 6)
+    private int ctaTipCtaCod;   // FK (N 2)
+    private int ctaFecApe;      // N (8)
+    private double ctaSalIni;   // N (10, 2)
+    private double ctaSalAct;   // N (10, 2)
+    private String ctaEstReg;   // FK (A 1)
 
-    public CuentaCorriente() {
+    public CuentaCorriente() {}
+
+    public CuentaCorriente(int ctaCod, int ctaTraCod, int ctaTipCtaCod, int ctaFecApe, double ctaSalIni, double ctaSalAct, String ctaEstReg) {
+        this.ctaCod = ctaCod;
+        this.ctaTraCod = ctaTraCod;
+        this.ctaTipCtaCod = ctaTipCtaCod;
+        this.ctaFecApe = ctaFecApe;
+        this.ctaSalIni = ctaSalIni;
+        this.ctaSalAct = ctaSalAct;
+        this.ctaEstReg = ctaEstReg;
     }
 
-    public CuentaCorriente(int ctaCorTraCod, int ctaCorCtaCod, int ctaCorSec, int ctaCorFec, String ctaCorDocRfe, double ctaCorMnt, String ctaCorEstReg) {
-        this.ctaCorTraCod = ctaCorTraCod;
-        this.ctaCorCtaCod = ctaCorCtaCod;
-        this.ctaCorSec = ctaCorSec;
-        this.ctaCorFec = ctaCorFec;
-        this.ctaCorDocRfe = ctaCorDocRfe;
-        this.ctaCorMnt = ctaCorMnt;
-        this.ctaCorEstReg = ctaCorEstReg;
-    }
+    public int getCtaCod() { return ctaCod; }
+    public void setCtaCod(int ctaCod) { this.ctaCod = ctaCod; }
 
-    public int getCtaCorTraCod() { return ctaCorTraCod; }
-    public void setCtaCorTraCod(int ctaCorTraCod) { this.ctaCorTraCod = ctaCorTraCod; }
+    public int getCtaTraCod() { return ctaTraCod; }
+    public void setCtaTraCod(int ctaTraCod) { this.ctaTraCod = ctaTraCod; }
 
-    public int getCtaCorCtaCod() { return ctaCorCtaCod; }
-    public void setCtaCorCtaCod(int ctaCorCtaCod) { this.ctaCorCtaCod = ctaCorCtaCod; }
+    public int getCtaTipCtaCod() { return ctaTipCtaCod; }
+    public void setCtaTipCtaCod(int ctaTipCtaCod) { this.ctaTipCtaCod = ctaTipCtaCod; }
 
-    public int getCtaCorSec() { return ctaCorSec; }
-    public void setCtaCorSec(int ctaCorSec) { this.ctaCorSec = ctaCorSec; }
+    public int getCtaFecApe() { return ctaFecApe; }
+    public void setCtaFecApe(int ctaFecApe) { this.ctaFecApe = ctaFecApe; }
 
-    public int getCtaCorFec() { return ctaCorFec; }
-    public void setCtaCorFec(int ctaCorFec) { this.ctaCorFec = ctaCorFec; }
+    public double getCtaSalIni() { return ctaSalIni; }
+    public void setCtaSalIni(double ctaSalIni) { this.ctaSalIni = ctaSalIni; }
 
-    public String getCtaCorDocRfe() { return ctaCorDocRfe; }
-    public void setCtaCorDocRfe(String ctaCorDocRfe) { this.ctaCorDocRfe = ctaCorDocRfe; }
+    public double getCtaSalAct() { return ctaSalAct; }
+    public void setCtaSalAct(double ctaSalAct) { this.ctaSalAct = ctaSalAct; }
 
-    public double getCtaCorMnt() { return ctaCorMnt; }
-    public void setCtaCorMnt(double ctaCorMnt) { this.ctaCorMnt = ctaCorMnt; }
-
-    public String getCtaCorEstReg() { return ctaCorEstReg; }
-    public void setCtaCorEstReg(String ctaCorEstReg) { this.ctaCorEstReg = ctaCorEstReg; }
+    public String getCtaEstReg() { return ctaEstReg; }
+    public void setCtaEstReg(String ctaEstReg) { this.ctaEstReg = ctaEstReg; }
 }
