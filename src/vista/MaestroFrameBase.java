@@ -11,6 +11,7 @@ import java.util.Map;
 
 public abstract class MaestroFrameBase extends JFrame {
     protected final Map<String, JTextField> campos = new LinkedHashMap<>();
+    protected final Map<String, JComboBox<String>> combos = new LinkedHashMap<>();
     protected JTable tabla;
     protected DefaultTableModel modeloTabla;
     protected JLabel lblMensaje;
@@ -57,8 +58,7 @@ public abstract class MaestroFrameBase extends JFrame {
         for (int i = 0; i < definicionCampos.length; i++) {
             String clave = definicionCampos[i][0];
             String etiqueta = definicionCampos[i][1];
-            JTextField campo = crearCampoTexto();
-            campos.put(clave, campo);
+            JComponent componenteCampo = crearComponenteCampo(clave);
 
             gbc.gridx = (i % 2) * 2;
             gbc.gridy = i / 2;
@@ -68,7 +68,7 @@ public abstract class MaestroFrameBase extends JFrame {
             gbc.gridx = (i % 2) * 2 + 1;
             gbc.gridy = i / 2;
             gbc.weightx = 1;
-            panelRegistro.add(campo, gbc);
+            panelRegistro.add(componenteCampo, gbc);
         }
 
         JTextField estado = campos.get("estado");
@@ -196,8 +196,30 @@ public abstract class MaestroFrameBase extends JFrame {
     }
 
     protected String valor(String clave) {
+        JComboBox<String> combo = combos.get(clave);
+        if (combo != null) {
+            Object seleccionado = combo.getSelectedItem();
+            if (seleccionado == null) {
+                return "";
+            }
+            return extraerCodigoCombo(seleccionado.toString());
+        }
+
         JTextField campo = campos.get(clave);
         return campo == null ? "" : campo.getText();
+    }
+
+    protected void asignarValor(String clave, String valor) {
+        JComboBox<String> combo = combos.get(clave);
+        if (combo != null) {
+            seleccionarComboPorCodigo(combo, valor);
+            return;
+        }
+
+        JTextField campo = campos.get(clave);
+        if (campo != null) {
+            campo.setText(valor == null ? "" : valor);
+        }
     }
 
     protected void cargarFilaEnCampos(String... claves) {
@@ -205,9 +227,16 @@ public abstract class MaestroFrameBase extends JFrame {
         if (fila < 0) return;
 
         for (int i = 0; i < claves.length; i++) {
+            Object valor = modeloTabla.getValueAt(fila, i);
+
+            JComboBox<String> combo = combos.get(claves[i]);
+            if (combo != null) {
+                seleccionarComboPorCodigo(combo, valor == null ? "" : valor.toString());
+                continue;
+            }
+
             JTextField campo = campos.get(claves[i]);
             if (campo != null) {
-                Object valor = modeloTabla.getValueAt(fila, i);
                 campo.setText(valor == null ? "" : valor.toString());
             }
         }
@@ -216,6 +245,9 @@ public abstract class MaestroFrameBase extends JFrame {
     protected void limpiarCampos() {
         for (JTextField campo : campos.values()) {
             campo.setText("");
+        }
+        for (JComboBox<String> combo : combos.values()) {
+            combo.setSelectedIndex(combo.getItemCount() > 0 ? 0 : -1);
         }
     }
 
@@ -267,6 +299,56 @@ public abstract class MaestroFrameBase extends JFrame {
                 BorderFactory.createLineBorder(BORDE_SUAVE, 1),
                 new EmptyBorder(5, 7, 5, 7)));
         return campo;
+    }
+
+    protected JComponent crearComponenteCampo(String clave) {
+        JTextField campo = crearCampoTexto();
+        campos.put(clave, campo);
+        return campo;
+    }
+
+    protected JComboBox<String> crearComboBoxCampo(String clave) {
+        JComboBox<String> combo = new JComboBox<>();
+        combo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        combo.setBackground(BLANCO);
+        combo.setBorder(BorderFactory.createLineBorder(BORDE_SUAVE, 1));
+        combos.put(clave, combo);
+        return combo;
+    }
+
+    private String extraerCodigoCombo(String texto) {
+        String limpio = texto == null ? "" : texto.trim();
+        if (limpio.isEmpty()) return "";
+        int fin = limpio.length();
+        for (String separador : new String[]{" ", "-", "|"}) {
+            int indice = limpio.indexOf(separador);
+            if (indice > 0) fin = Math.min(fin, indice);
+        }
+        String codigo = limpio.substring(0, fin).trim();
+        try {
+            return String.valueOf(Integer.parseInt(codigo));
+        } catch (NumberFormatException e) {
+            return codigo;
+        }
+    }
+
+    private void seleccionarComboPorCodigo(JComboBox<String> combo, String codigoBuscado) {
+        String codigo = codigoBuscado == null ? "" : codigoBuscado.trim();
+        String codigoNormalizado = codigo;
+        try {
+            codigoNormalizado = String.valueOf(Integer.parseInt(codigo));
+        } catch (NumberFormatException ignored) {
+        }
+
+        for (int i = 0; i < combo.getItemCount(); i++) {
+            String item = combo.getItemAt(i);
+            String codigoItem = extraerCodigoCombo(item);
+            if (codigoItem.equals(codigoNormalizado) || codigoItem.equals(codigo)) {
+                combo.setSelectedIndex(i);
+                return;
+            }
+        }
+        combo.setSelectedIndex(combo.getItemCount() > 0 ? 0 : -1);
     }
 
     protected abstract void cargarTabla();

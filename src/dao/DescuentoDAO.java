@@ -71,6 +71,68 @@ public class DescuentoDAO {
         }
     }
 
+    public boolean actualizarAvanceDesdeMovimientos(int empCod, int orgCod, String tipDesCod, int conSec, int desSec) {
+        String sql = "UPDATE R1T_DESCUENTO SET " +
+                "DesCuoDes = (SELECT COUNT(*) FROM R1T_DESCUENTO_MOV " +
+                "WHERE DesMovConEmpCod = ? AND DesMovConOrgCod = ? AND DesMovConTipDesCod = ? " +
+                "AND DesMovConSec = ? AND DesMovDesSec = ? AND DesMovTipMovCod = 'C' AND DesMovEstReg = 'A'), " +
+                "DesMonCuoAcu = COALESCE((SELECT SUM(CASE " +
+                "WHEN DesMovTipMovCod = 'C' THEN IF(DesMovMon = 0, DesMonCuo, DesMovMon) " +
+                "WHEN DesMovTipMovCod = 'A' THEN -DesMovMon ELSE 0 END) FROM R1T_DESCUENTO_MOV " +
+                "WHERE DesMovConEmpCod = ? AND DesMovConOrgCod = ? AND DesMovConTipDesCod = ? " +
+                "AND DesMovConSec = ? AND DesMovDesSec = ? AND DesMovEstReg = 'A'), 0) " +
+                "WHERE DesConEmpCod = ? AND DesConOrgCod = ? AND DesConTipDesCod = ? AND DesConSec = ? AND DesSec = ?";
+
+        try (Connection con = ConexionBD.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, empCod);
+            ps.setInt(2, orgCod);
+            ps.setString(3, tipDesCod);
+            ps.setInt(4, conSec);
+            ps.setInt(5, desSec);
+            ps.setInt(6, empCod);
+            ps.setInt(7, orgCod);
+            ps.setString(8, tipDesCod);
+            ps.setInt(9, conSec);
+            ps.setInt(10, desSec);
+            ps.setInt(11, empCod);
+            ps.setInt(12, orgCod);
+            ps.setString(13, tipDesCod);
+            ps.setInt(14, conSec);
+            ps.setInt(15, desSec);
+
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar avance del descuento: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean actualizarAvancesDesdeMovimientos() {
+        String sql = "UPDATE R1T_DESCUENTO d SET " +
+                "d.DesCuoDes = (SELECT COUNT(*) FROM R1T_DESCUENTO_MOV m " +
+                "WHERE m.DesMovConEmpCod = d.DesConEmpCod AND m.DesMovConOrgCod = d.DesConOrgCod " +
+                "AND m.DesMovConTipDesCod = d.DesConTipDesCod AND m.DesMovConSec = d.DesConSec " +
+                "AND m.DesMovDesSec = d.DesSec AND m.DesMovTipMovCod = 'C' AND m.DesMovEstReg = 'A'), " +
+                "d.DesMonCuoAcu = COALESCE((SELECT SUM(CASE " +
+                "WHEN m.DesMovTipMovCod = 'C' THEN IF(m.DesMovMon = 0, d.DesMonCuo, m.DesMovMon) " +
+                "WHEN m.DesMovTipMovCod = 'A' THEN -m.DesMovMon ELSE 0 END) FROM R1T_DESCUENTO_MOV m " +
+                "WHERE m.DesMovConEmpCod = d.DesConEmpCod AND m.DesMovConOrgCod = d.DesConOrgCod " +
+                "AND m.DesMovConTipDesCod = d.DesConTipDesCod AND m.DesMovConSec = d.DesConSec " +
+                "AND m.DesMovDesSec = d.DesSec AND m.DesMovEstReg = 'A'), 0)";
+
+        try (Connection con = ConexionBD.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Error al actualizar avances de descuentos: " + e.getMessage());
+            return false;
+        }
+    }
+
     public Descuento buscarPorCodigo(int empCod, int orgCod, String tipDesCod, int conSec, int desSec) {
         String sql = "SELECT DesConEmpCod, DesConOrgCod, DesConTipDesCod, DesConSec, DesSec, DesCtaCod, DesFec, " +
                 "DesMonTot, DesNumCuo, DesCuoDes, DesMonCuo, DesMonCuoAcu, DesEstReg FROM R1T_DESCUENTO " +

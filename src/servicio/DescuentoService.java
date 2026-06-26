@@ -93,6 +93,7 @@ public class DescuentoService {
     }
 
     public List<Descuento> obtenerListado() {
+        dao.actualizarAvancesDesdeMovimientos();
         return dao.listarTodos();
     }
 
@@ -102,8 +103,8 @@ public class DescuentoService {
         ClaveDescuento clave = construirClave(emp, org, tipDes, conSec, desSec);
         Integer cuenta = parseEntero(ctaCod, 1, 99999999);
         Integer fecha = parseFecha(fec);
-        Integer numeroCuotas = parseEntero(numCuo, 1, 6);
-        Integer cuotaDescontada = parseEntero(cuoDes, 0, 6);
+        Integer numeroCuotas = parseEntero(numCuo, 1, 99);
+        Integer cuotaDescontada = parseEntero(cuoDes, 0, 99);
         BigDecimal montoTotal = parseDecimal(monTot);
         BigDecimal montoCuota = parseDecimal(monCuo);
         BigDecimal montoAcumulado = parseDecimal(monCuoAcu);
@@ -113,6 +114,7 @@ public class DescuentoService {
         if (cuotaDescontada > numeroCuotas) return null;
         if (montoTotal.compareTo(BigDecimal.ZERO) <= 0 || montoCuota.compareTo(BigDecimal.ZERO) <= 0) return null;
         if (montoAcumulado.compareTo(BigDecimal.ZERO) < 0) return null;
+        if (montoTotal.compareTo(montoAcumulado) < 0) return null;
         if (convenioDao.buscarPorCodigo(clave.empCod, clave.orgCod, clave.tipDesCod, clave.conSec) == null) return null;
 
         return new Descuento(clave.empCod, clave.orgCod, clave.tipDesCod, clave.conSec, clave.desSec, cuenta, fecha,
