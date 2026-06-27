@@ -9,19 +9,20 @@ import java.util.List;
 
 public class DescuentoMovDAO {
 
-    private static final String CAMPO_ANIO = "DesMovPlaA\u251C\u2592o";
-    private static final String CAMPO_ANIO_SQL = "`" + CAMPO_ANIO + "`";
+    private static String campoAnioDetectado;
 
     public boolean insertar(DescuentoMov mov) {
-        String sql = "INSERT INTO R1T_DESCUENTO_MOV (DesMovConEmpCod, DesMovConOrgCod, DesMovConTipDesCod, " +
-                "DesMovConSec, DesMovDesSec, " + CAMPO_ANIO_SQL + ", DesMovPlaMes, DesMovPlaNum, " +
-                "DesMovTipMovCod, DesMovMon, DesMovEstReg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection con = ConexionBD.getConnection()) {
+            String campoAnioSql = campoAnioSql(con);
+            String sql = "INSERT INTO R1T_DESCUENTO_MOV (DesMovConEmpCod, DesMovConOrgCod, DesMovConTipDesCod, " +
+                    "DesMovConSec, DesMovDesSec, " + campoAnioSql + ", DesMovPlaMes, DesMovPlaNum, " +
+                    "DesMovTipMovCod, DesMovMon, DesMovEstReg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection con = ConexionBD.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
+            PreparedStatement ps = con.prepareStatement(sql);
             cargarParametros(ps, mov);
-            return ps.executeUpdate() > 0;
+            try (ps) {
+                return ps.executeUpdate() > 0;
+            }
         } catch (SQLException e) {
             System.out.println("Error al insertar movimiento de descuento: " + e.getMessage());
             return false;
@@ -29,19 +30,21 @@ public class DescuentoMovDAO {
     }
 
     public boolean modificarDatos(DescuentoMov mov) {
-        String sql = "UPDATE R1T_DESCUENTO_MOV SET DesMovTipMovCod = ?, DesMovMon = ? " +
-                "WHERE DesMovConEmpCod = ? AND DesMovConOrgCod = ? AND DesMovConTipDesCod = ? AND " +
-                "DesMovConSec = ? AND DesMovDesSec = ? AND " + CAMPO_ANIO_SQL + " = ? AND " +
-                "DesMovPlaMes = ? AND DesMovPlaNum = ?";
+        try (Connection con = ConexionBD.getConnection()) {
+            String campoAnioSql = campoAnioSql(con);
+            String sql = "UPDATE R1T_DESCUENTO_MOV SET DesMovTipMovCod = ?, DesMovMon = ? " +
+                    "WHERE DesMovConEmpCod = ? AND DesMovConOrgCod = ? AND DesMovConTipDesCod = ? AND " +
+                    "DesMovConSec = ? AND DesMovDesSec = ? AND " + campoAnioSql + " = ? AND " +
+                    "DesMovPlaMes = ? AND DesMovPlaNum = ?";
 
-        try (Connection con = ConexionBD.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
+            PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, mov.getDesMovTipMovCod());
             ps.setBigDecimal(2, mov.getDesMovMon());
             cargarClave(ps, mov, 3);
 
-            return ps.executeUpdate() > 0;
+            try (ps) {
+                return ps.executeUpdate() > 0;
+            }
         } catch (SQLException e) {
             System.out.println("Error al modificar movimiento de descuento: " + e.getMessage());
             return false;
@@ -49,18 +52,20 @@ public class DescuentoMovDAO {
     }
 
     public boolean cambiarEstadoRegistro(DescuentoMov mov, String nuevoEstado) {
-        String sql = "UPDATE R1T_DESCUENTO_MOV SET DesMovEstReg = ? " +
-                "WHERE DesMovConEmpCod = ? AND DesMovConOrgCod = ? AND DesMovConTipDesCod = ? AND " +
-                "DesMovConSec = ? AND DesMovDesSec = ? AND " + CAMPO_ANIO_SQL + " = ? AND " +
-                "DesMovPlaMes = ? AND DesMovPlaNum = ?";
+        try (Connection con = ConexionBD.getConnection()) {
+            String campoAnioSql = campoAnioSql(con);
+            String sql = "UPDATE R1T_DESCUENTO_MOV SET DesMovEstReg = ? " +
+                    "WHERE DesMovConEmpCod = ? AND DesMovConOrgCod = ? AND DesMovConTipDesCod = ? AND " +
+                    "DesMovConSec = ? AND DesMovDesSec = ? AND " + campoAnioSql + " = ? AND " +
+                    "DesMovPlaMes = ? AND DesMovPlaNum = ?";
 
-        try (Connection con = ConexionBD.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
+            PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, nuevoEstado);
             cargarClave(ps, mov, 2);
 
-            return ps.executeUpdate() > 0;
+            try (ps) {
+                return ps.executeUpdate() > 0;
+            }
         } catch (SQLException e) {
             System.out.println("Error al cambiar estado de movimiento de descuento: " + e.getMessage());
             return false;
@@ -69,15 +74,15 @@ public class DescuentoMovDAO {
 
     public DescuentoMov buscarPorCodigo(int empCod, int orgCod, String tipDesCod, int conSec, int desSec,
                                         int anio, int mes, int plaNum) {
-        String sql = "SELECT DesMovConEmpCod, DesMovConOrgCod, DesMovConTipDesCod, DesMovConSec, " +
-                "DesMovDesSec, " + CAMPO_ANIO_SQL + ", DesMovPlaMes, DesMovPlaNum, DesMovTipMovCod, " +
-                "DesMovMon, DesMovEstReg FROM R1T_DESCUENTO_MOV WHERE DesMovConEmpCod = ? AND " +
-                "DesMovConOrgCod = ? AND DesMovConTipDesCod = ? AND DesMovConSec = ? AND DesMovDesSec = ? AND " +
-                CAMPO_ANIO_SQL + " = ? AND DesMovPlaMes = ? AND DesMovPlaNum = ?";
+        try (Connection con = ConexionBD.getConnection()) {
+            String campoAnioSql = campoAnioSql(con);
+            String sql = "SELECT DesMovConEmpCod, DesMovConOrgCod, DesMovConTipDesCod, DesMovConSec, " +
+                    "DesMovDesSec, " + campoAnioSql + " AS DesMovPlaAnio, DesMovPlaMes, DesMovPlaNum, DesMovTipMovCod, " +
+                    "DesMovMon, DesMovEstReg FROM R1T_DESCUENTO_MOV WHERE DesMovConEmpCod = ? AND " +
+                    "DesMovConOrgCod = ? AND DesMovConTipDesCod = ? AND DesMovConSec = ? AND DesMovDesSec = ? AND " +
+                    campoAnioSql + " = ? AND DesMovPlaMes = ? AND DesMovPlaNum = ?";
 
-        try (Connection con = ConexionBD.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
+            PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, empCod);
             ps.setInt(2, orgCod);
             ps.setString(3, tipDesCod);
@@ -92,6 +97,7 @@ public class DescuentoMovDAO {
                     return leerMovimiento(rs);
                 }
             }
+            ps.close();
         } catch (SQLException e) {
             System.out.println("Error al buscar movimiento de descuento: " + e.getMessage());
         }
@@ -106,17 +112,19 @@ public class DescuentoMovDAO {
 
     public List<DescuentoMov> listarTodos() {
         List<DescuentoMov> lista = new ArrayList<>();
-        String sql = "SELECT DesMovConEmpCod, DesMovConOrgCod, DesMovConTipDesCod, DesMovConSec, " +
-                "DesMovDesSec, " + CAMPO_ANIO_SQL + ", DesMovPlaMes, DesMovPlaNum, DesMovTipMovCod, " +
-                "DesMovMon, DesMovEstReg FROM R1T_DESCUENTO_MOV ORDER BY DesMovConEmpCod, DesMovConOrgCod, " +
-                "DesMovConTipDesCod, DesMovConSec, DesMovDesSec, " + CAMPO_ANIO_SQL + ", DesMovPlaMes, DesMovPlaNum";
+        try (Connection con = ConexionBD.getConnection()) {
+            String campoAnioSql = campoAnioSql(con);
+            String sql = "SELECT DesMovConEmpCod, DesMovConOrgCod, DesMovConTipDesCod, DesMovConSec, " +
+                    "DesMovDesSec, " + campoAnioSql + " AS DesMovPlaAnio, DesMovPlaMes, DesMovPlaNum, DesMovTipMovCod, " +
+                    "DesMovMon, DesMovEstReg FROM R1T_DESCUENTO_MOV ORDER BY DesMovConEmpCod, DesMovConOrgCod, " +
+                    "DesMovConTipDesCod, DesMovConSec, DesMovDesSec, DesMovPlaAnio, DesMovPlaMes, DesMovPlaNum";
 
-        try (Connection con = ConexionBD.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+            try (PreparedStatement ps = con.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery()) {
 
-            while (rs.next()) {
-                lista.add(leerMovimiento(rs));
+                while (rs.next()) {
+                    lista.add(leerMovimiento(rs));
+                }
             }
         } catch (SQLException e) {
             System.out.println("Error al listar movimientos de descuento: " + e.getMessage());
@@ -157,12 +165,31 @@ public class DescuentoMovDAO {
                 rs.getString("DesMovConTipDesCod"),
                 rs.getInt("DesMovConSec"),
                 rs.getInt("DesMovDesSec"),
-                rs.getInt(CAMPO_ANIO),
+                rs.getInt("DesMovPlaAnio"),
                 rs.getInt("DesMovPlaMes"),
                 rs.getInt("DesMovPlaNum"),
                 rs.getString("DesMovTipMovCod"),
                 rs.getBigDecimal("DesMovMon"),
                 rs.getString("DesMovEstReg")
         );
+    }
+
+    private String campoAnioSql(Connection con) throws SQLException {
+        if (campoAnioDetectado != null) {
+            return "`" + campoAnioDetectado + "`";
+        }
+
+        DatabaseMetaData metaData = con.getMetaData();
+        try (ResultSet columnas = metaData.getColumns(con.getCatalog(), null, "R1T_DESCUENTO_MOV", null)) {
+            while (columnas.next()) {
+                String nombre = columnas.getString("COLUMN_NAME");
+                if (nombre != null && nombre.startsWith("DesMovPlaA")) {
+                    campoAnioDetectado = nombre;
+                    return "`" + campoAnioDetectado + "`";
+                }
+            }
+        }
+
+        throw new SQLException("No se encontro la columna de anio de planilla en R1T_DESCUENTO_MOV.");
     }
 }

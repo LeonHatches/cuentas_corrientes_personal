@@ -85,6 +85,12 @@ public class DescuentoMovService {
         }
 
         if (correcto) {
+            descuentoDao.actualizarAvanceDesdeMovimientos(
+                    registroPendiente.getDesMovConEmpCod(),
+                    registroPendiente.getDesMovConOrgCod(),
+                    registroPendiente.getDesMovConTipDesCod(),
+                    registroPendiente.getDesMovConSec(),
+                    registroPendiente.getDesMovDesSec());
             String mensaje = "Operacion " + operacionPendiente + " realizada correctamente.";
             limpiarOperacion();
             return mensaje;
@@ -116,7 +122,7 @@ public class DescuentoMovService {
 
         if (empCod == null || orgCod == null || convenioSec == null || descuentoSec == null) return null;
         if (planillaAnio == null || planillaMes == null || planillaNum == null || montoMov == null) return null;
-        if (montoMov.compareTo(BigDecimal.ZERO) < 0) return null;
+        if (montoMov.compareTo(BigDecimal.ZERO) <= 0) return null;
         if (tipDes.length() != 1 || tipMov.length() != 1) return null;
         if (descuentoDao.buscarPorCodigo(empCod, orgCod, tipDes, convenioSec, descuentoSec) == null) return null;
         if (!"X".equals(tipMov) && tipoMovimientoDao.buscarPorCodigo(tipMov) == null) return null;

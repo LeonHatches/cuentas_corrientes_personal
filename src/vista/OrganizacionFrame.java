@@ -1,7 +1,12 @@
 package vista;
 
 import modelo.Organizacion;
+import modelo.TipoOrganizacion;
 import servicio.OrganizacionService;
+import servicio.TipoOrganizacionService;
+
+import javax.swing.*;
+import java.util.List;
 
 public class OrganizacionFrame extends MaestroFrameBase {
     private final OrganizacionService service = new OrganizacionService();
@@ -24,14 +29,31 @@ public class OrganizacionFrame extends MaestroFrameBase {
     }
 
     @Override
+    protected JComponent crearComponenteCampo(String clave) {
+        if ("tipo".equals(clave)) {
+            JComboBox<String> combo = crearComboBoxCampo(clave);
+
+            List<TipoOrganizacion> tipos = new TipoOrganizacionService().obtenerListado();
+            for (TipoOrganizacion tipo : tipos) {
+                if ("A".equals(tipo.getTipOrgEstReg())) {
+                    combo.addItem(String.format("%02d - %s", tipo.getTipOrgCod(), tipo.getTipOrgNom()));
+                }
+            }
+
+            return combo;
+        }
+        return super.crearComponenteCampo(clave);
+    }
+
+    @Override
     protected void cargarTabla() {
         modeloTabla.setRowCount(0);
         for (Organizacion org : service.obtenerListado()) {
             modeloTabla.addRow(new Object[]{
-                    org.getOrgCod(),
+                    String.format("%04d", org.getOrgCod()),
                     org.getOrgNom(),
                     org.getOrgRuc(),
-                    org.getTipOrgCod(),
+                    String.format("%02d", org.getTipOrgCod()),
                     org.getEstReg()
             });
         }
