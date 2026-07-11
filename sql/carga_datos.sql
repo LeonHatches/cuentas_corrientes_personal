@@ -41,6 +41,10 @@ INSERT IGNORE INTO R1Z_ESTADO_TRABAJADOR (EstTraCod, EstTraNom, EstTraEstReg) VA
 ('A', 'Activo', 'A'),
 ('C', 'Cesado', 'A');
 
+INSERT IGNORE INTO R1Z_TIPO_PRESTAMO (TipPreCod, TipPreNom, TipPreEstReg) VALUES
+(1, 'Vacacional', 'A'),
+(2, 'Enfermedad', 'A');
+
 INSERT IGNORE INTO R1Z_TIPO_CUENTA_CORRIENTE (TipCtaCod, TipCtaNom, TipCtaEstReg) VALUES
 (1, 'Planilla', 'A'),
 (2, 'Vacacional', 'A'),
@@ -52,10 +56,48 @@ INSERT IGNORE INTO R1Z_TIPO_CUENTA_CORRIENTE (TipCtaCod, TipCtaNom, TipCtaEstReg
 -- ---------------------------------------------------------------------
 
 INSERT IGNORE INTO R1M_EMPRESA (EmpCod, EmpRazSoc, EmpRuc, EmpEstReg) VALUES
-(1, 'Minera Cerro Verde S.A.A.', '20100039207', 'A');
+(1, 'Minera Cerro Verde S.A.A.', '20100039207', 'A'),
+(2, 'Industry Nativa S.A.C.', '20543219876', 'A'),
+(3, 'Tecnológica del Sur S.A.', '20123456789', 'A'),
+(4, 'Constructora Los Andes EIRL', '20987654321', 'A'),
+(5, 'Servicios Generales Arequipa', '20456123789', 'A'),
+(6, 'Consultora ABC S.A.C.', '20789456123', 'A'),
+(7, 'Distribuidora Central S.A.', '20159264837', 'A'),
+(8, 'Manufacturas Peruanas S.A.C.', '20357159486', 'A'),
+(9, 'Transportes del Sur', '20648291735', 'A'),
+(10, 'Agroindustrial Majes', '20817263549', 'A'),
+(11, 'Inversiones Inmobiliarias', '20192837465', 'A'),
+(12, 'Clínica Salud Total', '20564738291', 'A'),
+(13, 'Importaciones Globales EIRL', '20283746519', 'A'),
+(14, 'Seguridad Prosegur', '20918273645', 'A'),
+(15, 'Limpieza y Mantenimiento S.A.', '20374651928', 'A'),
+(16, 'Marketing y Publicidad S.A.C.', '20485761923', 'A'),
+(17, 'Auditoría Contable Sur', '20619283745', 'A'),
+(18, 'Estudio Jurídico Asociados', '20756481923', 'A'),
+(19, 'Corporación de Alimentos S.A.', '20182736459', 'A'),
+(20, 'Industry Nativa S.A.C.', '20543219876', 'A');
 
 INSERT IGNORE INTO R1M_CENTRO_COSTO (CenCosCod, CenCosNom, CenCosEstReg) VALUES
-('A001', 'Gerencia General', 'A');
+('A001', 'Gerencia General', 'A'),
+('A002', 'Gerencia de Producción', 'A'),
+('A003', 'Gerencia de Operaciones', 'A'),
+('A004', 'Recursos Humanos', 'A'),
+('A005', 'Contabilidad y Finanzas', 'A'),
+('A006', 'Logística y Almacén', 'A'),
+('A007', 'Ventas Corporativas', 'A'),
+('A008', 'Marketing Digital', 'A'),
+('A009', 'Soporte TI', 'A'),
+('A010', 'Desarrollo de Software', 'A'),
+('A011', 'Atención al Cliente', 'A'),
+('A012', 'Mantenimiento de Planta', 'A'),
+('A013', 'Control de Calidad', 'A'),
+('A014', 'Investigación y Desarrollo', 'A'),
+('A015', 'Relaciones Públicas', 'A'),
+('A016', 'Auditoría Interna', 'A'),
+('A017', 'Gestión Legal', 'A'),
+('A018', 'Seguridad Ocupacional', 'A'),
+('A019', 'Producción Línea A', 'A'),
+('A020', 'Distribución y Transporte', 'A');
 
 INSERT IGNORE INTO R1M_TRABAJADOR
 (TraCod, TraNom, TraFecIng, TraFecCes, TraFecUltSalVac, TraEmpCod, TraEstCod, TraCenCosCod, TraTipCod, TraEstReg)
@@ -190,7 +232,7 @@ VALUES
 -- ---------------------------------------------------------------------
 
 INSERT IGNORE INTO R1T_PRESTAMO_MOV
-(PreMovTraCod, PreMovTipCod, PreMovPreSec, PreMovPlaAño, PreMovPlaMes, PreMovPlaNum, PreMovTipMovCod, PreMovMonDes, PreMovEstReg)
+(PreMovTraCod, PreMovTipCod, PreMovPreSec, PreMovPlaAnio, PreMovPlaMes, PreMovPlaNum, PreMovTipMovCod, PreMovMonDes, PreMovEstReg)
 VALUES
 (100001, 2, 1, 2026, 7, 1, 'A', 200.00, 'A'),
 (100002, 1, 1, 2026, 7, 1, 'A', 500.00, 'A'),
@@ -374,7 +416,7 @@ VALUES
 
 INSERT IGNORE INTO R1T_DESCUENTO_MOV
 (DesMovConEmpCod, DesMovConOrgCod, DesMovConTipDesCod, DesMovConSec, DesMovDesSec,
- `DesMovPlaAño`, DesMovPlaMes, DesMovPlaNum, DesMovTipMovCod, DesMovMon, DesMovEstReg)
+ `DesMovPlaAnio`, DesMovPlaMes, DesMovPlaNum, DesMovTipMovCod, DesMovMon, DesMovEstReg)
 VALUES
 -- Mes 1 (base)
 (1, 1, 'B', 1, 1, 2026, 1, 1, 'C', 250.00, 'A'),

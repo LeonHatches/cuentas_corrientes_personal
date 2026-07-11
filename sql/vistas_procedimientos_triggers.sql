@@ -46,7 +46,7 @@ WHERE
 
 CREATE VIEW V_PRESTAMO_MOV_COMPLETO AS
 SELECT
-    m.PreMovPlaAño AS PreMovComPlaAnio,
+    m.PreMovPlaAnio AS PreMovComPlaAnio,
     m.PreMovPlaMes AS PreMovComPlaMes,
     t.TraNom AS PreMovComTraNom,
     m.PreMovMonDes AS PreMovComMonDes,

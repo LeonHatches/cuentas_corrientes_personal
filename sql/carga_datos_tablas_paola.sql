@@ -161,7 +161,7 @@ VALUES
 (100030, 2, 1, 90000030, 20260621, 2000.00, 10, 200.00, 0.00, 'A');
 
 INSERT IGNORE INTO R1T_PRESTAMO_MOV
-(PreMovTraCod, PreMovTipCod, PreMovPreSec, PreMovPlaAño, PreMovPlaMes, PreMovPlaNum, PreMovTipMovCod, PreMovMonDes, PreMovEstReg)
+(PreMovTraCod, PreMovTipCod, PreMovPreSec, PreMovPlaAnio, PreMovPlaMes, PreMovPlaNum, PreMovTipMovCod, PreMovMonDes, PreMovEstReg)
 VALUES
 (100001, 2, 1, 2026, 7, 1, 'A', 200.00, 'A'),
 (100002, 1, 1, 2026, 7, 1, 'A', 500.00, 'A'),
@@ -345,7 +345,7 @@ VALUES
 
 INSERT IGNORE INTO R1T_DESCUENTO_MOV
 (DesMovConEmpCod, DesMovConOrgCod, DesMovConTipDesCod, DesMovConSec, DesMovDesSec,
- `DesMovPlaAño`, DesMovPlaMes, DesMovPlaNum, DesMovTipMovCod, DesMovMon, DesMovEstReg)
+ `DesMovPlaAnio`, DesMovPlaMes, DesMovPlaNum, DesMovTipMovCod, DesMovMon, DesMovEstReg)
 VALUES
 (1, 1, 'B', 1, 1, 2026, 1, 1, 'C', 250.00, 'A'),
 (1, 1, 'B', 1, 1, 2026, 2, 1, 'C', 250.00, 'A'),
